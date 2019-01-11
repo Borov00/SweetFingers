@@ -1,0 +1,36 @@
+.Nav-body {
+  text-align: center;
+}
+
+.Cust-ul {
+  padding:0;
+  list-style:none;
+  width: 100%;
+  margin:auto;
+  border: 2spx solid #777;
+}
+
+.Cust-li{
+  font-size:1.2rem;
+  line-height: 2rem;
+  border: 1px solid #777;
+  padding: 10px;
+}
+.Cust-img{
+  text-align: center;
+}
+
+.Nav-logo {
+  animation: Nav-logo-spin infinite 20s linear;
+  
+}
+@keyframes Nav-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.Head-text {
+  border-bottom: 1px solid #777;
+}
+.Cust-text{
+  text-align: center;
+}

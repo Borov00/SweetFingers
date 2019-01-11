@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './customers.css';
 import { Table,Jumbotron, Button,Nav,Navbar,NavItem,MenuItem,NavDropdown,Image} from 'react-bootstrap'
+
 class Customers extends Component {
   constructor() {
     super();
@@ -25,7 +26,7 @@ class Customers extends Component {
             <h3 className="Cust-text"> {customer.name}</h3>
             <li>
               Recipe: {customer._id}
-                <li className="Cust-img"> <Image  src={customer.url}  height="500" width="100%" /> </li>
+                <li className="Cust-img"> <a href="/room"> <Image href="/room" src={customer.url}  height="500" width="100%" /></a> </li>
             </li>
           </li>
         )}

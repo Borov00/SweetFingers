@@ -13,7 +13,8 @@
   "author": "Brad Traversy",
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^1.14.6"
+    "nodemon": "^1.14.6",
+    "react-social-icons": "^4.1.0"
   },
   "dependencies": {
     "concurrently": "^3.5.1",

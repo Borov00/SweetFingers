@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './customers.css';
-import { Table,Jumbotron, Button,Nav,Navbar,NavItem,MenuItem,NavDropdown,Image} from 'react-bootstrap'
+import { Image} from 'react-bootstrap'
 class Customers extends Component {
   constructor() {
     super();

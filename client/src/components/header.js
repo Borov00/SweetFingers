@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button,Jumbotron, Nav,Navbar,NavItem,MenuItem,NavDropdown,Glyphicon  } from 'react-bootstrap';
+import { Nav,NavItem, Glyphicon  } from 'react-bootstrap';
 
 class Headers extends Component {
 

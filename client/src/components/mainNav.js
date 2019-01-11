@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './customers.css';
-import {Button,Jumbotron, Nav,Navbar,NavItem,MenuItem,NavDropdown,Glyphicon} from 'react-bootstrap';
+import {Nav,Navbar,NavItem,MenuItem,Glyphicon} from 'react-bootstrap';
 class NavbarsMain extends Component {
 
   render() {

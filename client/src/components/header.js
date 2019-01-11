@@ -8,11 +8,11 @@ class Headers extends Component {
      <header className="Head-text">
 
          <Nav bsStyle="tabs" activeKey="1" >
-           <NavItem eventKey="1" href="/">
+           <NavItem eventKey="1" disabled>
             <Glyphicon glyph="glyphicon glyphicon-cutlery" />
            </NavItem>
 
-           <NavItem eventKey="2" >
+           <NavItem eventKey="2" href="/">
             <Glyphicon glyph="glyphicon glyphicon-home" />
             HOME
            </NavItem>
@@ -20,7 +20,7 @@ class Headers extends Component {
              <Glyphicon glyph="glyphicon glyphicon-plus" />Add
            </NavItem>
            <Nav pullRight>
-           <NavItem eventKey="4" >
+           <NavItem eventKey="1" href="/room"  >
            <Glyphicon glyph="glyphicon glyphicon-user" />
            ROOM
            </NavItem>

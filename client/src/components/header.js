@@ -17,14 +17,22 @@ class Headers extends Component {
             HOME
            </NavItem>
            <NavItem eventKey="3" >
-             <Glyphicon glyph="glyphicon glyphicon-plus" />Add
+             <Glyphicon glyph="glyphicon glyphicon-plus" />
+             ADD
            </NavItem>
-           <Nav pullRight>
-           <NavItem eventKey="1" href="/room"  >
-           <Glyphicon glyph="glyphicon glyphicon-user" />
-           ROOM
-           </NavItem>
-          </Nav>
+
+          <Nav pullRight>
+            <NavItem eventKey="1" href="/room"  >
+              <Glyphicon glyph="glyphicon glyphicon-user" />
+              ROOM
+            </NavItem>
+         </Nav>
+         <Nav pullRight>
+          <NavItem eventKey="1" href="/room"  >
+            <Glyphicon glyph="glyphicon glyphicon-pencil" />
+            SIGN UP/LOG IN
+          </NavItem>
+        </Nav>
          </Nav>
 
 

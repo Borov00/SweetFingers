@@ -1,96 +1,123 @@
 import React, { Component } from 'react';
-import {FormGroup,FormControl,ControlLabel,HelpBlock, InputGroup,Glyphicon} from 'react-bootstrap';
+import {FormGroup,FormControl,ControlLabel,HelpBlock, InputGroup,Glyphicon, Image,Button} from 'react-bootstrap';
 import { SocialIcon } from 'react-social-icons';
+import axios from 'axios';
 import './customers.css';
 
 class Forms extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.handleChange = this.handleChange.bind(this);
-
-    this.state = {
-      value: '',
-      text:''
-    };
-  }
-
-  getValidationState() {
-    const length = this.state.value.length;
-    if (length >= 8) {
-      return 'success';
+  state = {
+      email: '',
+      password: ''
     }
-    else if (length > 0) {
-      return 'error';
+
+    handleChange1 = event => {
+
+      this.setState({ name: event.target.value });
     }
-    return null;
-  }
+    handleChange2 = event => {
 
-  handleChange(e) {
-    this.setState({ value: e.target.value });
-  }
+      this.setState({ password: event.target.value });
+    }
 
+    handleSubmit = event => {
+
+
+      axios.post('http://localhost:5000/login', { name: this.state.name, password: this.state.password })
+        .then(res => {
+          console.log(res);
+          console.log(res.data);
+        })
+    }
   render() {
     return (
       <div>
-      <form className="Form-size1">
-        <h1> Log in </h1>
+      <form className="Form-size1" onSubmit={this.handleSubmit}>
+        <h1> Sign in </h1>
         <FormGroup>
+          <Glyphicon glyph="glyphicon glyphicon-envelope" />
+          <ControlLabel>Email</ControlLabel>
           <FormControl
             type="email"
             placeholder="Email"
+            onChange={this.handleChange1}
           />
         </FormGroup>
-        <FormGroup
-          controlId="formBasicText"
-          validationState={this.getValidationState()}
-        >
+        <FormGroup  >
           <Glyphicon glyph="glyphicon glyphicon-lock" />
           <ControlLabel>Password</ControlLabel>
           <FormControl
             type="password"
-            value={this.state.value}
             placeholder="Password"
-            onChange={this.handleChange}
+            onChange={this.handleChange2}
           />
-          <FormControl.Feedback />
+          <button className="Form-btn">Send</button>
 
         </FormGroup>
 
       </form>
+
       <form className="Form-size1">
         <h1> Sign up </h1>
         <FormGroup>
+        <Glyphicon glyph="glyphicon glyphicon-user" />
+        <ControlLabel>Name</ControlLabel>
           <FormControl
             type="text"
             placeholder="Name"
           />
         </FormGroup>
         <FormGroup
-          controlId="formBasicText"
-          validationState={this.getValidationState()}
         >
         </FormGroup>
         <FormGroup>
+          <Glyphicon glyph="glyphicon glyphicon-envelope" />
+          <ControlLabel>Email</ControlLabel>
           <FormControl
             type="email"
             placeholder="Email"
           />
         </FormGroup>
-        <FormGroup
-          controlId="formBasicText"
-          validationState={this.getValidationState()}
-        >
+        <FormGroup>
           <Glyphicon glyph="glyphicon glyphicon-lock" />
           <ControlLabel>Password</ControlLabel>
           <FormControl
             type="password"
-            value={this.state.value}
             placeholder="Password"
-            onChange={this.handleChange}
+
           />
-          <FormControl.Feedback />
-</FormGroup>
+          <button className="Form-btn">Send</button>
+          <br/>
+          <FormGroup>
+            <a href="#">
+              <Image
+                src="http://www.delgosea.eu/var/ezwebin_site/storage/images/media/images/fb-icon/7363-1-eng-GB/fb-icon.jpg"
+                circle width="10%"
+                heignt="10%"
+              />
+            </a>
+            <a href="#">
+              <Image
+                src="https://yt3.ggpht.com/a-/AN66SAwKgKC5at8ZPnDOpe2iTpPw73EIKyNf1IPTEg=s900-mo-c-c0xffffffff-rj-k-no"
+                circle width="10%"
+                hieght="10%"
+              />
+            </a>
+            <a href="#">
+              <Image
+                src="http://4.bp.blogspot.com/-vH-WfuJ0QEo/VwRNHbvAVKI/AAAAAAAAAnc/pBbly7JHBkkh-uyIZaioI_HTp8zAQHmRQ/s1600/twitter_logo.png"
+                circle width="10%"
+                hiegnt="10%"
+              />
+            </a>
+            <a href="#">
+              <Image
+                src="https://avatanplus.com/files/resources/original/57c14894a6171156cb0384c8.png"
+                circle width="10%"
+                heignt="10%"
+              />
+            </a>
+          </FormGroup>
+          </FormGroup>
 
       </form>
       </div>

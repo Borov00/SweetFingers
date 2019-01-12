@@ -26,7 +26,7 @@ class Customers extends Component {
             <h3 className="Cust-text"> {customer.name}</h3>
             <li>
               Recipe: {customer._id}
-                <li className="Cust-img"> <a href="/room"> <Image href="/room" src={customer.url}  height="500" width="100%" /></a> </li>
+                <li className="Cust-img"> <a href="/room"> <Image href="/room" src={customer.url}  height="5%" width="100%" /></a> </li>
             </li>
           </li>
         )}

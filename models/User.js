@@ -15,13 +15,10 @@ const userSchema = new mongoose.Schema({
   name: String,
   articles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Article' }],
 
+  claps: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
+
   facebook: String,
-  twitter: String,
   google: String,
-  github: String,
-  instagram: String,
-  linkedin: String,
-  steam: String,
   tokens: Array,
 
   profile: {

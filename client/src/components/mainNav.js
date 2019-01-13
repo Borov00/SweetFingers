@@ -1,39 +1,65 @@
 import React, { Component } from 'react';
-import './customers.css';
-import {Nav,Navbar,NavItem,MenuItem,Glyphicon} from 'react-bootstrap';
 class NavbarsMain extends Component {
-
-  render() {
-    return (
-      <div>
-      <Navbar>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="#home">
-              <Glyphicon glyph="glyphicon glyphicon-home" />
-              HOME
-
-            </a>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Nav>
-          <NavItem eventKey={1} href="#">
-            Link
-          </NavItem>
-          <NavItem eventKey={2} href="#">
-            Link
-          </NavItem>
-          <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-            <MenuItem eventKey={3.1}>Action</MenuItem>
-            <MenuItem eventKey={3.2}>Another action</MenuItem>
-            <MenuItem eventKey={3.3}>Something else here</MenuItem>
-            <MenuItem divider />
-            <MenuItem eventKey={3.4}>Separated link</MenuItem>
-          </NavDropdown>
-        </Nav>
-      </Navbar>
-</div>
-    );
-  }
+    constructor() {
+        super();
+        this.state = {
+            user: "",
+            text: ""
+        }
+        this.fetchChirps = this.fetchChirps.bind(this)
+        this.inputHandler = this.inputHandler.bind(this)
+    }
+    inputHandler(e) {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+    fetchChirps() {
+        fetch('http://localhost:5000/login', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                user: this.state.user,
+                text: this.state.text,
+            })
+        })
+            .catch(err => {
+                alert("Error: Your chirp was not created");
+                console.log(err)
+            })
+    }
+    render() {
+        return (
+            <div>
+                <div className="input">
+                <form action="">
+                    <input
+                        type="text"
+                        placeholder="UserName"
+                        size="10"
+                        id="user"
+                        name="user"
+                        onChange={this.inputHandler}
+                        defaultValue={this.state.user}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Type a new chirp"
+                        size="60"
+                        id="text"
+                        name="text"
+                        onChange={this.inputHandler}
+                        defaultValue={this.state.text}
+                    />
+                    <button
+                        onClick={this.fetchChirps}
+                        id="submit">
+                        Submit
+                    </button>
+                </form>
+                </div>
+            </div >
+        )
+    }
 }
-export default NavbarsMain;
+export default NavbarsMain

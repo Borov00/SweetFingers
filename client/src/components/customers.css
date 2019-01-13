@@ -8,12 +8,15 @@
   width: 100%;
   margin:auto;
   border: 2spx solid #777;
-}
 
+}
+.Cust-h1{
+  border-bottom: 1px double #777;
+}
 .Cust-li{
   font-size:1.2rem;
   line-height: 2rem;
-  border: 1px solid #777;
+  border-bottom: 3px solid #777;
   padding: 10px;
 }
 .Cust-img{
@@ -22,7 +25,7 @@
 
 .Nav-logo {
   animation: Nav-logo-spin infinite 20s linear;
-  
+  position: relative ;
 }
 @keyframes Nav-logo-spin {
   from { transform: rotate(0deg); }
@@ -33,4 +36,40 @@
 }
 .Cust-text{
   text-align: center;
+}
+.Form-size1 {
+  margin-left: 25%;
+  margin-right: 25%;
+  align-items: center;
+  width: 50%;
+  border-bottom: 1px solid #777;
+}
+.Form-size2 {
+  align-items: center;
+  position: absolute;
+  top : 20%;
+  left: 50%;
+  right:0%;
+  width: 50%;
+
+}
+.Form-btn {
+  color:#111;
+  background-color: #FAF0E6;
+  padding: 10px 20px;
+  width:100px;
+  text-decoration:none;
+  text-align:center;
+  margin:20px auto;
+  display: block;
+  background-image: linear-gradient(to left,transparent,transparent 50%,#FFB6C1 50%,#FFB6C1);
+  background-position: 100% 0;
+  background-size: 200% 100%;
+  transition: all .25s ease-in;
+  font: 400 18px tahoma;
+  border: 1px solid #111;
+}
+.Form-btn:hover {
+  background-position: 0 0;
+  color:#111;
 }

@@ -3,8 +3,6 @@ const request = require('request');
 const { Strategy: LocalStrategy } = require('passport-local');
 const { Strategy: FacebookStrategy } = require('passport-facebook');
 const { OAuth2Strategy: GoogleStrategy } = require('passport-google-oauth');
-const { OAuthStrategy } = require('passport-oauth');
-const { OAuth2Strategy } = require('passport-oauth');
 
 const User = require('../models/User');
 
@@ -64,13 +62,19 @@ passport.use(new FacebookStrategy({
 }, (req, accessToken, refreshToken, profile, done) => {
   if (req.user) {
     User.findOne({ facebook: profile.id }, (err, existingUser) => {
-      if (err) { return done(err); }
+      if (err) {
+        console.log(err);
+        return done(err);
+      }
       if (existingUser) {
-        req.flash('errors', { msg: 'There is already a Facebook account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
+        req.status()('errors', { msg: 'There is already a Facebook account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
         done(err);
       } else {
         User.findById(req.user.id, (err, user) => {
-          if (err) { return done(err); }
+          if (err) {
+            console.log(err);
+            return done(err);
+          }
           user.facebook = profile.id;
           user.tokens.push({ kind: 'facebook', accessToken });
           user.profile.name = user.profile.name || `${profile.name.givenName} ${profile.name.familyName}`;

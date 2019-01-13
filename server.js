@@ -18,10 +18,12 @@ const sass = require('node-sass-middleware');
 const multer = require('multer');
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 const router = express.Router()
-
+const cors = require('cors')
 const multipart = require('connect-multiparty');
 const multipartWare = multipart();
 ////////////////////////////////////////
+
+
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
@@ -29,7 +31,9 @@ dotenv.load({ path: '.env.example' });
 /**
  * Controllers (route handlers).
  */
-    const homeController = require('./controllers/home');
+const homeController = require('./controllers/home');
+const userController = require('./controllers/user');
+const articleController = require('./controllers/article');
 /**
  * API keys and Passport configuration.
  */
@@ -45,11 +49,15 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useNewUrlParser', true);
 mongoose.connect(process.env.MONGODB_URI);
+console.log(process.env.MONGODB_URI);
 mongoose.connection.on('error', (err) => {
     console.error(err);
     console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
     process.exit();
 });
+/**
+ * Configure cors
+ */
 /**
  * Express configuration.
  */
@@ -78,14 +86,14 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
+/*app.use(flash());
 app.use((req, res, next) => {
     if (req.path === '/api/upload') {
         next();
     } else {
         lusca.csrf()(req, res, next);
     }
-});
+});*/
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
 app.disable('x-powered-by');
@@ -115,35 +123,34 @@ app.use('/webfonts', express.static(path.join(__dirname, 'node_modules/@fortawes
 /**
  * Primary app routes.
  */
-app.get('/api/customers', homeController.index);
+app.get('/main', articleController.getAllArticles);
+app.get('/article', articleController.getOneArticle);
+app.use("/",function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    next();
+});
+app.post('/signin', userController.postSignin);
+
+app.post('/signup', userController.postSignup);
+
+app.get('/logout', userController.logout);
+
+//app.post('/login', passportConfig.isAuthorized, articleController.postLogin);
 /**
  * OAuth authentication routes. (Sign in)
  */
-/*
-app.get('/auth/instagram', passport.authenticate('instagram'));
-app.get('/auth/instagram/callback', passport.authenticate('instagram', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect(req.session.returnTo || '/');
-});
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
     res.redirect(req.session.returnTo || '/');
 });
-app.get('/auth/github', passport.authenticate('github'));
-app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect(req.session.returnTo || '/');
-});
+
 app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
     res.redirect(req.session.returnTo || '/');
 });
-app.get('/auth/twitter', passport.authenticate('twitter'));
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect(req.session.returnTo || '/');
-});
-app.get('/auth/linkedin', passport.authenticate('linkedin', { state: 'SOME STATE' }));
-app.get('/auth/linkedin/callback', passport.authenticate('linkedin', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect(req.session.returnTo || '/');
-});*/
+
 
 
 // var recipes;

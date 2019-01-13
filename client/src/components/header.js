@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav,NavItem, Glyphicon  } from 'react-bootstrap';
+import {Button,Jumbotron, Nav,Navbar,NavItem,MenuItem,NavDropdown,Glyphicon  } from 'react-bootstrap';
 
 class Headers extends Component {
 
@@ -8,23 +8,31 @@ class Headers extends Component {
      <header className="Head-text">
 
          <Nav bsStyle="tabs" activeKey="1" >
-           <NavItem eventKey="1" href="/">
+           <NavItem eventKey="1" disabled>
             <Glyphicon glyph="glyphicon glyphicon-cutlery" />
            </NavItem>
 
-           <NavItem eventKey="2" >
+           <NavItem eventKey="2" href="/">
             <Glyphicon glyph="glyphicon glyphicon-home" />
             HOME
            </NavItem>
            <NavItem eventKey="3" >
-             <Glyphicon glyph="glyphicon glyphicon-plus" />Add
+             <Glyphicon glyph="glyphicon glyphicon-plus" />
+             ADD
            </NavItem>
-           <Nav pullRight>
-           <NavItem eventKey="4" >
-           <Glyphicon glyph="glyphicon glyphicon-user" />
-           ROOM
-           </NavItem>
-          </Nav>
+
+          <Nav pullRight>
+            <NavItem eventKey="1" href="/room"  >
+              <Glyphicon glyph="glyphicon glyphicon-user" />
+              ROOM
+            </NavItem>
+         </Nav>
+         <Nav pullRight>
+          <NavItem eventKey="1" href="/room"  >
+            <Glyphicon glyph="glyphicon glyphicon-pencil" />
+            SIGN UP/LOG IN
+          </NavItem>
+        </Nav>
          </Nav>
 
 

@@ -24,6 +24,7 @@ const ArticleSchema = new mongoose.Schema(
     ]
   }
 );
+
 ArticleSchema.methods.clap = function() {
   this.claps++
   return this.save();

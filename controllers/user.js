@@ -19,12 +19,15 @@ exports.getLogin = (req, res) => {
   });
 };
 
+
+
+
 /**
  * POST /login
  * Sign in using email and password.
  */
-exports.postLogin = (req, res, next) => {
-  req.assert('email', 'Email is not valid').isEmail();
+exports.postSignin = (req, res, next) => {
+  /*req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password cannot be blank').notEmpty();
   req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
 
@@ -33,22 +36,22 @@ exports.postLogin = (req, res, next) => {
   if (errors) {
     req.flash('errors', errors);
     return res.redirect('/login');
-  }
-
+  }*/
+  console.log(req.body);
   passport.authenticate('local', (err, user, info) => {
-    if (err) { return next(err); }
+    if (err) {
+      console.log(err);
+      return next(err);
+    }
     if (!user) {
-      req.flash('errors', info);
-      return res.redirect('/login');
+      return res.status(404).json({msg: "User not found"});
     }
     if(user.block === true){
-      req.flash('block', {msg: 'You are blocked.' });
-      res.redirect('/login');
+      res.status(403).json({msg: "User is blocked"});
     }
     req.logIn(user, (err) => {
       if (err) { return next(err); }
-      req.flash('success', { msg: 'Success! You are logged in.' });
-      res.redirect(req.session.returnTo || '/');
+      res.status(200).json({msg: 'Success! You are logged in.'});
     });
   })(req, res, next);
 };
@@ -62,7 +65,7 @@ exports.logout = (req, res) => {
   req.session.destroy((err) => {
     if (err) console.log('Error : Failed to destroy the session during logout.', err);
     req.user = null;
-    res.redirect('/');
+    res.status(200).json({msg: "Succesc! You are logged out"});
   });
 };
 
@@ -84,7 +87,7 @@ exports.getSignup = (req, res) => {
  * Create a new local account.
  */
 exports.postSignup = (req, res, next) => {
-  req.assert('email', 'Email is not valid').isEmail();
+  /*req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password must be at least 4 characters long').len(4);
   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
   req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
@@ -95,25 +98,29 @@ exports.postSignup = (req, res, next) => {
     req.flash('errors', errors);
     return res.redirect('/signup');
   }
-
+  */console.log(req.body);
   const user = new User({
     email: req.body.email,
     password: req.body.password
   });
-
   User.findOne({ email: req.body.email }, (err, existingUser) => {
-    if (err) { return next(err); }
+    if (err) {
+      console.log(err);
+      return next(err); }
     if (existingUser) {
-      req.flash('errors', { msg: 'Account with that email address already exists.' });
-      return res.redirect('/signup');
+      return res.status(409).json({msg: 'Account with that email address already exists.'});
     }
-    user.save((err) => {
-      if (err) { return next(err); }
+    user.save((user,err) => {
+      if (err) {
+        console.log(err);
+        return next(err); }
       req.logIn(user, (err) => {
         if (err) {
+          console.log(err);
           return next(err);
         }
-        res.redirect('/');
+        console.log(user);
+        res.status(200).json({msg: 'Successfully signed up.'});
       });
     });
   });

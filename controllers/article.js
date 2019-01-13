@@ -58,14 +58,19 @@ exports.postArticle = (req, res) => {
 
 
 exports.getAllArticles = (req, res, next) => {
-  Article.find({author: req.user.id})
-    .exec((err, articles) => {
-      if (err) res.send(err);
-      else if (!articles) res.send(404);
-      else {
-        console.log(articles);
-        //res.render('articles', articles);
-      }
-      next();
-    });
+  Article.find().exec(function(err, results){
+    console.log(results);
+    recipes=results;
+    let customers=recipes;
+    res.json(customers);
+  });
+};
+
+exports.getOneArticle = (req, res, next) => {
+  Article.find().exec(function(err, results){
+    console.log(results);
+    recipes=results;
+    let customers=recipes;
+    res.json(customers);
+  });
 };

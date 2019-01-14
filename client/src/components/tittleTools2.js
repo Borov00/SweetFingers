@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Button,Jumbotron, Nav,Navbar,NavItem,MenuItem,NavDropdown,Glyphicon  } from 'react-bootstrap';
 
-class Headers extends Component {
+class Tools2 extends Component {
 
  render() {
    return (
@@ -16,18 +16,12 @@ class Headers extends Component {
            </NavItem>
 
          <Nav pullRight>
-          <NavItem eventKey="1"  href="/signIn" >
-            <Glyphicon glyph="glyphicon glyphicon-user" />
-            SignIN
+          <NavItem eventKey="1"  href="/room" >
+            <Glyphicon glyph="glyphicon glyphicon-briefcase" />
+            ROOM
           </NavItem>
         </Nav>
-        <Nav pullRight>
-         <NavItem eventKey="1"  href="/signUp" >
-          +
-          <Glyphicon glyph="glyphicon glyphicon-user" />
-           SignUp
-         </NavItem>
-       </Nav>
+
          </Nav>
 
 
@@ -36,4 +30,4 @@ class Headers extends Component {
  }
 }
 
-export default Headers;
+export default Tools2;

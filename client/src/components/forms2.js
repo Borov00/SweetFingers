@@ -1,56 +1,74 @@
 import React, { Component } from 'react';
-import {FormGroup,FormControl,ControlLabel,HelpBlock, InputGroup,Glyphicon, Image,Button,Label} from 'react-bootstrap';
+import {FormGroup,FormControl,ControlLabel,HelpBlock, InputGroup,Glyphicon, Image,Button} from 'react-bootstrap';
 import { SocialIcon } from 'react-social-icons';
 import axios from 'axios';
 import './customers.css';
 
-class Forms extends React.Component {
+class Forms1 extends React.Component {
   state = {
+      name:'',
       email: '',
       password: '',
       className: '',
-      message: "",
-      href: ""
+      message: ""
     }
 
     handleChange1 = event => {
 
-      this.setState({ name: event.target.value });
+      this.setState({ email: event.target.value });
 
     }
     handleChange2 = event => {
 
       this.setState({ password: event.target.value });
-      if(this.state.password.length>7){
-        this.setState({href:"/room"});
-      }
+
+    }
+    handleChange3 = event => {
+
+      this.setState({ name: event.target.value });
+
     }
 
     handleSubmit = event => {
       event.preventDefault();
-      if(this.state.password.length>7) {
-        axios.post('http://localhost:5000/signIn', { name: this.state.name, password: this.state.password })
-          .then(res => {
-            console.log(res);
-            console.log(res.data);
-
-          })
+      if(this.state.password.length>7 || !this.state.email.includes("@")) {
+      axios.post('http://localhost:5000/signUp', { name: this.state.name ,email: this.state.email, password: this.state.password })
+        .then(res => {
+          console.log(res);
+          console.log(res.data);
+        })
+      } else {
+        this.setState({message: "incorrect data"});
 
       }
-    }
 
+
+
+    }
   render() {
+
     return (
       <div>
-      <form className="Form-size1" onSubmit={this.handleSubmit}>
+      <form className="Form-size1">
 
+        <FormGroup>
+          <Glyphicon glyph="glyphicon glyphicon-user" />
+          <ControlLabel>Name</ControlLabel>
+            <FormControl
+              type="text"
+              placeholder="Name"
+              onChange={this.handleChange3}
+            />
+        </FormGroup>
         <FormGroup>
           <Glyphicon glyph="glyphicon glyphicon-envelope" />
           <ControlLabel>Email</ControlLabel>
           <FormControl
+          className={this.state.className}
             type="email"
             placeholder="Email"
             onChange={this.handleChange1}
+
           />
         </FormGroup>
         <FormGroup  >
@@ -62,9 +80,8 @@ class Forms extends React.Component {
             placeholder="Password"
             onChange={this.handleChange2}
           />
-          <ControlLabel className="Form-text-red">{this.state.customers}</ControlLabel>
-          <Button href={this.state.href} className="Form-btn"> Send</Button>
-
+          <ControlLabel className="Form-text-red">{this.state.message}</ControlLabel>
+          <Button onClick={this.handleSubmit} className="Form-btn" >Send</Button >
         </FormGroup>
         <br/>
         <FormGroup>
@@ -98,8 +115,9 @@ class Forms extends React.Component {
           </a>
         </FormGroup>
       </form>
+
       </div>
     );
   }
 }
-export default Forms ;
+export default Forms1 ;

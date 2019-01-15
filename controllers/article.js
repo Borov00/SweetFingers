@@ -59,7 +59,7 @@ exports.postArticle = (req, res) => {
 
 exports.getAllArticles = (req, res, next) => {
   Article.find().exec(function(err, results){
-    console.log(results);
+    //console.log(results);
     recipes=results;
     let customers=recipes;
     res.json(customers);

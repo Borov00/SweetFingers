@@ -13,6 +13,14 @@ class App extends Component {
     return (
 <BrowserRouter>
         <div className="App">
+            <Route exact={true} path='/logout' render={() => (
+                <div className="App">
+                    <Navbars/>
+                    <form className="App-customers">
+
+                    </form>
+                </div>
+            )}/>
         <Route exact={true} path='/' render={() => (
           <div className="App">
             <Navbars/>

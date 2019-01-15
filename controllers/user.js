@@ -10,7 +10,7 @@ const randomBytesAsync = promisify(crypto.randomBytes);
  * GET /login
  * Login page.
  */
-exports.getLogin = (req, res) => {
+exports.getSignin = (req, res) => {
   if (req.user) {
     return res.redirect('/');
   }
@@ -27,31 +27,40 @@ exports.getLogin = (req, res) => {
  * Sign in using email and password.
  */
 exports.postSignin = (req, res, next) => {
-  /*req.assert('email', 'Email is not valid').isEmail();
+  req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password cannot be blank').notEmpty();
   req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
 
   const errors = req.validationErrors();
-
   if (errors) {
+    console.log(errors);
     req.flash('errors', errors);
     return res.redirect('/login');
-  }*/
-  console.log(req.body);
+  }
+
   passport.authenticate('local', (err, user, info) => {
     if (err) {
       console.log(err);
       return next(err);
     }
     if (!user) {
-      return res.status(404).json({msg: "User not found"});
+      console.log('User not found');
+      return res.status(404).json({msg: 'User not found'});
     }
     if(user.block === true){
-      res.status(403).json({msg: "User is blocked"});
+      console.log('User is blocked');
+      res.status(403).json({msg: 'User is blocked'});
     }
-    req.logIn(user, (err) => {
+    req.login(user, (err) => {
       if (err) { return next(err); }
-      res.status(200).json({msg: 'Success! You are logged in.'});
+      console.log(req.user);
+      console.log('Successfully signed up.');
+      //res.json(user);
+      console.log(req.session);
+      console.log(req.session.id);
+      console.log(req.cookie);
+      req.flash('success', { msg: 'Success! You are logged in.' });
+      res.redirect(req.session.returnTo || 'http://localhost:3000/');
     });
   })(req, res, next);
 };
@@ -61,9 +70,11 @@ exports.postSignin = (req, res, next) => {
  * Log out.
  */
 exports.logout = (req, res) => {
+  console.log(req.user);
   req.logout();
   req.session.destroy((err) => {
     if (err) console.log('Error : Failed to destroy the session during logout.', err);
+    console.log("Has been logged out:" + req.user);
     req.user = null;
     res.status(200).json({msg: "Succesc! You are logged out"});
   });
@@ -100,17 +111,20 @@ exports.postSignup = (req, res, next) => {
   }
   */console.log(req.body);
   const user = new User({
+      name: req.body.name,
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
   });
-  User.findOne({ email: req.body.email }, (err, existingUser) => {
+  console.log(user);
+  User.findOne({ email: user.email }, (err, existingUser) => {
     if (err) {
       console.log(err);
       return next(err); }
     if (existingUser) {
+      console.log('Account with that email address already exists.');
       return res.status(409).json({msg: 'Account with that email address already exists.'});
     }
-    user.save((user,err) => {
+    User.create((user,err) => {
       if (err) {
         console.log(err);
         return next(err); }
@@ -120,6 +134,8 @@ exports.postSignup = (req, res, next) => {
           return next(err);
         }
         console.log(user);
+        console.log('Successfully signed up.');
+        res.json({user: 'someone'})
         res.status(200).json({msg: 'Successfully signed up.'});
       });
     });

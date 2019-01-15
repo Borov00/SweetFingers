@@ -1,0 +1,349 @@
+doctype html
+head
+    meta(charset='utf-8')
+    meta(username='viewport' content='width=device-width')
+    title &Scy;&pcy;&icy;&scy;&ocy;&kcy; &pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&iecy;&lcy;&iecy;&jcy;
+    link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet')
+    script(src='https://code.jquery.com/jquery-2.2.4.min.js')
+nav.navbar.navbar-inverse
+    .container-fluid
+        .navbar-header
+            button.navbar-toggle.collapsed(type='button' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar')
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+            a.navbar-brand(href='#') NodeJS
+        #navbar.navbar-collapse.collapse
+            ul.nav.navbar-nav
+                li.active
+                    a(href='#') Home
+                li
+                    a(href='#') About
+                li
+                    a(href='#') Contact
+                li.dropdown
+                    a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
+                        | Dropdown
+                        span.caret
+                    ul.dropdown-menu
+                        li
+                            a(href='#') Action
+                        li
+                            a(href='#') Another action
+                        li
+                            a(href='#') Something else here
+                        li.divider(role='separator')
+                        li.dropdown-header Nav header
+                        li
+                            a(href='#') Separated link
+                        li
+                            a(href='#') One more separated link
+            ul.nav.navbar-nav.navbar-right
+                li
+                    a(href='../navbar-static-top/' style='color: white')
+                        b #{username} #{email}
+                        // b= username + " " + email
+
+                li
+                    button.btn.btn-info(onclick="window.location.href='/logout'") Logout
+        // /.nav-collapse
+    // /.container-fluid
+//
+  <div class="panel-body">
+  Surusername: <b><%=email%></b> Name: <b><%=username%></b><br>
+  <button class="btn btn-info" onclick="window.location.href='/logout'" >Logout</button>
+  </div>
+h2(align='center') List of users
+//
+  <form username="userForm">
+  <div class="container">
+  <input type="hidden" username="id" value="0" />
+  <div class="form-group">
+  <label>Name:</label>
+  <input class="form-control" username="username" />
+  </div>
+  <div class="form-group">
+  <label>Surusername:</label>
+  <input class="form-control" username="email" />
+  </div>
+  <div class="panel-body">
+  <button type="submit" class="btn btn-sm btn-primary">Save</button>
+  <a id="reset" class="btn btn-sm btn-primary">Reset</a>
+  </div>
+  </div>
+  </form>
+.container
+    table.table.table-striped.table-dark
+        thead
+            tr
+                th Activated
+                th Status
+                th
+                    | Blocked [
+                    a.blockAllLink Block all
+                    |  /
+                    a.unblockAllLink Unblock all
+                    |  ]
+                th Id
+                th Email
+                th Username
+                th Actions
+        tbody
+script.
+    // Получение всех пользователей
+    function GetUsers() {
+        $.ajax({
+            url: "/api/users/get",
+            type: "GET",
+            contentType: "application/json",
+            success: function (users) {
+                var rows = "";
+                $.each(users, function (index, user) {
+                    // добавляем полученные элементы в таблицу
+                    rows += row(user);
+                })
+                $("table tbody").append(rows);
+            }
+        });
+    }
+    // Получение одного пользователя
+    /*function GetUser(id) {
+    $.ajax({
+    url: "/api/users/get/"+id,
+    type: "GET",
+    contentType: "application/json",
+    success: function (user) {
+    var form = document.forms["userForm"];
+    form.elements["id"].value = user._id;
+    form.elements["username"].value = user.email;
+    form.elements["email"].value = user.username;
+    form.elements["status"].value = user.status;
+    }
+    });
+    }*/
+    // Добавление пользователя
+    /*function CreateUser(userName, userEmail) {
+    $.ajax({
+    url: "api/users/save",
+    contentType: "application/json",
+    method: "POST",
+    data: JSON.stringify({
+    username: userName,
+    email: userEmail,
+    }),
+    success: function (user) {
+    reset();
+    $("table tbody").append(row(user));
+    }
+    })
+    }*/
+    // Изменение пользователя
+    /*function EditUser(userId,userName, userEmail) {
+    $.ajax({
+    url: "api/users/edit",
+    contentType: "application/json",
+    method: "PUT",
+    data: JSON.stringify({
+    id: userId,
+    username: userName,
+    email: userEmail,
+    }),
+    success: function (user) {
+    reset();
+    console.log(user);
+    $("tr[data-rowid='" + user._id + "']").replaceWith(row(user));
+    }
+    })
+    }*/
+    // сброс формы
+    /*function reset() {
+    var form = document.forms["userForm"];
+    form.reset();
+    form.elements["id"].value = 0;
+    }*/
+    // Удаление пользователя
+    function DeleteUser(id,) {
+        $.ajax({
+            url: "/api/users/delete/"+id,
+            contentType: "application/json",
+            method: "DELETE",
+            success: function (user) {
+                var currentEmail = "<%=email%>";
+                var currentUsername = "<%= username%>"
+                console.log(user);
+                $("tr[data-rowid='" + user._id + "']").remove();
+                if(currentUsername === user.email && currentEmail === user.username){
+                    location.reload();
+                }
+            }
+        })
+    }
+    function BlockUser(userStatus, userId, userEmail, userName) {
+        $.ajax({
+            url: "api/users/block/",
+            contentType: "application/json",
+            method: "PUT",
+            data: JSON.stringify({
+                id: userId,
+                username: userName,
+                email: userEmail,
+                status: userStatus,
+            }),
+            success: function (user) {
+                console.log(user);
+                $("tr[data-rowid='" + user._id + "']").replaceWith(row(user));
+            }
+        })
+    }
+    function UnBlockUser(userStatus, userId, userEmail, userName) {
+        $.ajax({
+            url: "api/users/unblock/",
+            contentType: "application/json",
+            method: "PUT",
+            data: JSON.stringify({
+                id: userId,
+                username: userName,
+                email: userEmail,
+                status: userStatus,
+            }),
+            success: function (user) {
+                console.log(user);
+                $("tr[data-rowid='" + user._id + "']").replaceWith(row(user));
+            }
+        })
+    }
+    function BlockAllusers() {
+        $.ajax({
+            url: "api/users/blockAll/",
+            contentType: "application/json",
+            method: "GET",
+            success: function (user) {
+                location.reload();
+            }
+        })
+    }
+    function UnblockAllusers() {
+        $.ajax({
+            url: "api/users/unblockAll/",
+            contentType: "application/json",
+            method: "GET",
+            success: function (user) {
+                location.reload();
+            }
+        })
+    }
+    function SetAdmin(userBlock, userId, userEmail, userName) {
+        $.ajax({
+            url: "api/set/admin",
+            contentType: "application/json",
+            method: "PUT",
+            data: JSON.stringify({
+                id: userId,
+                username: userName,
+                email: userEmail,
+                block: userBlock,
+            }),
+            success: function (user) {
+                console.log(user);
+                $("tr[data-rowid='" + user._id + "']").replaceWith(row(user));
+            }
+        })
+    }
+    function SetUser(userBlock, userId, userEmail, userName) {
+        $.ajax({
+            url: "api/set/user",
+            contentType: "application/json",
+            method: "PUT",
+            data: JSON.stringify({
+                id: userId,
+                username: userName,
+                email: userEmail,
+                block: userBlock,
+            }),
+            success: function (user) {
+                console.log(user);
+                $("tr[data-rowid='" + user._id + "']").replaceWith(row(user));
+            }
+        })
+    }
+    // создание строки для таблицы
+    var row = function (user) {
+        return "<tr data-rowid='" + user._id + "'>" +
+            "<td><b style='-apple-system-body'>" + user.enable + "</b></td>" +
+            "<td>" + user.status + "</td> " +
+            "<td>" + user.block + "</td> " +
+            "<td>" + user._id + "</td> " +
+            "<td>" + user.email + "</td>" +
+            "<td>" + user.username + "</td>" +
+            "<td>" +
+            "<a class='removeLink' data-id='" + user._id + "'>Delete</a> | " +
+            "<a class='blockLink' data-id='" + user._id + "' data-email='"+user.email+"' data-username='"+user.username+"' data-status='"+user.status+"' data-block='"+user.block+"'>Block</a> | " +
+            "<a class='unblockLink' data-id='" + user._id + "' data-email='"+user.email+"' data-username='"+user.username+"' data-status='"+user.status+"' data-block='"+user.block+"'>Unblock</a> | " +
+            "<a class='adminLink' data-id='" + user._id + "' data-email='"+user.email+"' data-username='"+user.username+"' data-status='"+user.status+"' data-block='"+user.block+"'>SetAdmin</a> | "+
+            "<a class='userLink' data-id='" + user._id + "' data-email='"+user.email+"' data-username='"+user.username+"' data-status='"+user.status+"' data-block='"+user.block+"'>SetUser</a>"
+        "</td></tr>";
+    }
+    // сброс значений формы
+    /*$("#reset").click(function (e) {
+    e.preventDefault();
+    reset();
+    })*/
+    // отправка формы
+    /*$("form").submit(function (e) {
+    e.preventDefault();
+    var id = this.elements["id"].value;
+    //var block = this.elements["block"].value;
+    var username = this.elements["username"].value;
+    var email = this.elements["email"].value;
+    if (id == 0)
+    CreateUser( username, email);
+    else
+    EditUser(id, username, email);
+    });*/
+    /*// нажимаем на ссылку Изменить
+    $("body").on("click", ".editLink", function () {
+    var id = $(this).data("id");
+    GetUser(id);
+    })*/
+    // нажимаем на ссылку Удалить
+    $("body").on("click", ".removeLink", function () {
+        var id = $(this).data("id");
+        DeleteUser(id);
+    })
+    $("body").on("click", ".blockLink", function () {
+        var id = $(this).data("id");
+        var username = $(this).data("username");
+        var email = $(this).data("email");
+        var status = $(this).data("status");
+        BlockUser(status, id, email, username);
+    })
+    $("body").on("click", ".unblockLink", function () {
+        var id = $(this).data("id");
+        var username = $(this).data("username");
+        var email = $(this).data("email");
+        var status = $(this).data("status");
+        UnBlockUser(status, id, email, username);
+    })
+    $("body").on("click", ".blockAllLink", function () {
+        BlockAllusers();
+    })
+    $("body").on("click", ".unblockAllLink", function () {
+        UnblockAllusers();
+    })
+    $("body").on("click", ".userLink", function () {
+        var id = $(this).data("id");
+        var username = $(this).data("username");
+        var email = $(this).data("email");
+        var block = $(this).data("block");
+        SetUser(block, id, email, username);
+    })
+    $("body").on("click", ".adminLink", function () {
+        var id = $(this).data("id");
+        var username = $(this).data("username");
+        var email = $(this).data("email");
+        var block = $(this).data("block");
+        SetAdmin(block, id, email, username);
+    })
+    // загрузка пользователей
+    GetUsers();

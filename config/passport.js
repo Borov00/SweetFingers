@@ -7,11 +7,13 @@ const { OAuth2Strategy: GoogleStrategy } = require('passport-google-oauth');
 const User = require('../models/User');
 
 passport.serializeUser((user, done) => {
+  console.log("serializeUser:"+user);
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
   User.findById(id, (err, user) => {
+    console.log("deserializeUser error: "+ err+" User:"+ user);
     done(err, user);
   });
 });
@@ -67,7 +69,7 @@ passport.use(new FacebookStrategy({
         return done(err);
       }
       if (existingUser) {
-        req.status()('errors', { msg: 'There is already a Facebook account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
+        req.flash('errors', { msg: 'There is already a Facebook account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
         done(err);
       } else {
         User.findById(req.user.id, (err, user) => {
@@ -130,7 +132,7 @@ passport.use(new GoogleStrategy({
     User.findOne({ google: profile.id }, (err, existingUser) => {
       if (err) { return done(err); }
       if (existingUser) {
-        req.flash('errors', { msg: 'There is already a Google account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
+        console.log({ msg: 'There is already a Google account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
         done(err);
       } else {
         User.findById(req.user.id, (err, user) => {
@@ -141,13 +143,14 @@ passport.use(new GoogleStrategy({
           user.profile.gender = user.profile.gender || profile._json.gender;
           user.profile.picture = user.profile.picture || profile._json.image.url;
           user.save((err) => {
-            req.flash('info', { msg: 'Google account has been linked.' });
+            req.json({ msg: 'Google account has been linked.' });
             done(err, user);
           });
         });
       }
     });
   } else {
+    console.log(profile.id);
     User.findOne({ google: profile.id }, (err, existingUser) => {
       if (err) { return done(err); }
       if (existingUser) {
@@ -156,7 +159,7 @@ passport.use(new GoogleStrategy({
       User.findOne({ email: profile.emails[0].value }, (err, existingEmailUser) => {
         if (err) { return done(err); }
         if (existingEmailUser) {
-          req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Google manually from Account Settings.' });
+          req.json('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Google manually from Account Settings.' });
           done(err);
         } else {
           const user = new User();
@@ -176,8 +179,14 @@ passport.use(new GoogleStrategy({
 }));
 
 
-
-
+exports.isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    console.log(req.user + "isAuthenticated!!!");
+    return next();
+  }
+  console.log("Not authenticated: res.redirect('/room');");
+  res.redirect('http://localhost:3000/room');
+};
 
 /**
  * Authorization Required middleware.

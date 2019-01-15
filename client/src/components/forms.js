@@ -3,6 +3,8 @@ import {FormGroup,FormControl,ControlLabel,HelpBlock, InputGroup,Glyphicon, Imag
 import axios from 'axios';
 import './customers.css';
 
+
+
 class Forms extends React.Component {
   state = {
       email: '',
@@ -19,18 +21,17 @@ class Forms extends React.Component {
     }
 
     handleSubmit = event => {
+      event.preventDefault();
 
-
-      axios.post('http://localhost:5000/signup', { email: this.state.email, password: this.state.password })
-        .then(res => {
-          console.log(res);
-          console.log(res.data);
+      axios.post('http://localhost:5000/signin', { email: this.state.email, password: this.state.password, withCredentials: true })
+        .then(function (res) {
+            alert(res);
         })
     }
   render() {
     return (
       <div>
-      <form className="Form-size1" onSubmit={this.handleSubmit}>
+      <form className="Form-size1" onSubmit={this.handleSubmit} >
         <h1> Sign in </h1>
         <FormGroup>
           <Glyphicon glyph="glyphicon glyphicon-envelope" />
@@ -87,32 +88,18 @@ class Forms extends React.Component {
           <button className="Form-btn">Send</button>
           <br/>
           <FormGroup>
-            <a href="#">
+            <a href="http://localhost:5000/auth/facebook">
               <Image
                 src="http://www.delgosea.eu/var/ezwebin_site/storage/images/media/images/fb-icon/7363-1-eng-GB/fb-icon.jpg"
                 circle width="10%"
                 heignt="10%"
               />
             </a>
-            <a href="#">
+            <a href="http://localhost:5000/auth/google">
               <Image
                 src="https://yt3.ggpht.com/a-/AN66SAwKgKC5at8ZPnDOpe2iTpPw73EIKyNf1IPTEg=s900-mo-c-c0xffffffff-rj-k-no"
                 circle width="10%"
                 hieght="10%"
-              />
-            </a>
-            <a href="#">
-              <Image
-                src="http://4.bp.blogspot.com/-vH-WfuJ0QEo/VwRNHbvAVKI/AAAAAAAAAnc/pBbly7JHBkkh-uyIZaioI_HTp8zAQHmRQ/s1600/twitter_logo.png"
-                circle width="10%"
-                hiegnt="10%"
-              />
-            </a>
-            <a href="#">
-              <Image
-                src="https://avatanplus.com/files/resources/original/57c14894a6171156cb0384c8.png"
-                circle width="10%"
-                heignt="10%"
               />
             </a>
           </FormGroup>

@@ -10,6 +10,7 @@ const dotenv = require('dotenv');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('express-flash');
 const path = require('path');
+const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose');
 const passport = require('passport');
 const expressValidator = require('express-validator');
@@ -34,6 +35,7 @@ dotenv.load({ path: '.env.example' });
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const articleController = require('./controllers/article');
+const manageController = require('./controllers/manage');
 /**
  * API keys and Passport configuration.
  */
@@ -61,8 +63,12 @@ mongoose.connection.on('error', (err) => {
 /**
  * Express configuration.
  */
+
+app.use(cors({credentials: true, origin: true}));
 app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
 app.set('port', 5000);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 app.use(expressStatusMonitor());
 app.use(compression());
 app.use(sass({
@@ -70,12 +76,13 @@ app.use(sass({
     dest: path.join(__dirname, 'public')
 }));
 app.use(logger('dev'));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(session({
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     secret: process.env.SESSION_SECRET,
     cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
     store: new MongoStore({
@@ -86,17 +93,13 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-/*app.use(flash());
-app.use((req, res, next) => {
-    if (req.path === '/api/upload') {
-        next();
-    } else {
-        lusca.csrf()(req, res, next);
-    }
-});*/
+app.use(flash());
+/*app.use((req, res, next) => {
+    lusca.csrf()(req, res, next);
+});
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
-app.disable('x-powered-by');
+app.disable('x-powered-by');*/
 app.use((req, res, next) => {
     res.locals.user = req.user;
     next();
@@ -123,34 +126,62 @@ app.use('/webfonts', express.static(path.join(__dirname, 'node_modules/@fortawes
 /**
  * Primary app routes.
  */
-app.get('/main', articleController.getAllArticles);
-app.get('/article', articleController.getOneArticle);
 app.use("/",function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
     res.header("Access-Control-Allow-Headers", "Content-Type");
+    res.header("Access-Control-Allow-Headers", "Origin, Authorization, Accept, Content-Type");
+    res.header("Access-Control-Allow-Credentials", true);
+    /*add_header Access-Control-Allow-Origin *;
+    add_header Access-Control-Allow-Methods "POST, GET, OPTIONS";
+    add_header Access-Control-Allow-Headers "Origin, Authorization, Accept, Content-Type";
+    add_header Access-Control-Allow-Credentials true;
+    add_header Content-Length 0;
+    add_header Content-Type text/plain;*/
     next();
 });
+
+app.get('/main',function(req,res,next){
+    console.log("res.session.id : "+req.session.user);
+    next();
+},  passportConfig.isAuthenticated, articleController.getAllArticles);
+app.get('/article', articleController.getOneArticle);
+
+app.get('/signin', userController.getSignin);
 app.post('/signin', userController.postSignin);
-
+//app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
-
+app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
 app.get('/logout', userController.logout);
+app.get('/manage', passportConfig.isAuthenticated, manageController.index);
+
+app.get('/account', passportConfig.isAuthenticated, userController.getAccount)
 
 //app.post('/login', passportConfig.isAuthorized, articleController.postLogin);
+
+/**
+ * Users Management
+ */
+app.get("/manage", passportConfig.isAuthenticated, manageController.index);
+app.get("/api/users/get", passportConfig.isAuthenticated, manageController.isAdmin, manageController.getUser)
+app.delete("/api/users/delete/:id", passportConfig.isAuthenticated, manageController.deleteOne)
+app.get("/api/users/blockAll/", passportConfig.isAuthenticated, manageController.blockAll)
+app.get("/api/users/unblockAll/", passportConfig.isAuthenticated, manageController.unblockAll)
+app.put("/api/users/block/", passportConfig.isAuthenticated, manageController.blockOne)
+app.put("/api/users/unblock/", passportConfig.isAuthenticated, manageController.unblockOne)
+app.put("/api/set/admin/", passportConfig.isAuthenticated, manageController.setAdmin)
+app.put("/api/set/user/", passportConfig.isAuthenticated, manageController.setUser)
 /**
  * OAuth authentication routes. (Sign in)
  */
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
-app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect(req.session.returnTo || '/');
+app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: 'http://localhost:3000/' }), (req, res) => {
+    res.redirect('http://localhost:3000/');
 });
-
 app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
-app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect(req.session.returnTo || '/');
+app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'http://localhost:3000/' }), (req, res) => {
+    console.log("google/callback");
+    res.redirect('http://localhost:3000/');
 });
-
 
 
 // var recipes;

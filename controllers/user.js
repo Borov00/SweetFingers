@@ -59,7 +59,11 @@ exports.postSignin = (req, res, next) => {
       console.log(req.session);
       console.log(req.session.id);
       console.log(req.cookie);
-      req.flash('success', { msg: 'Success! You are logged in.' });
+      /*req.status(200).json(
+          {
+            success: true,
+            msg: 'Success! You are logged in.'
+          });*/
       res.redirect(req.session.returnTo || 'http://localhost:3000/');
     });
   })(req, res, next);
@@ -98,7 +102,7 @@ exports.getSignup = (req, res) => {
  * Create a new local account.
  */
 exports.postSignup = (req, res, next) => {
-  /*req.assert('email', 'Email is not valid').isEmail();
+  req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password must be at least 4 characters long').len(4);
   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
   req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
@@ -106,20 +110,23 @@ exports.postSignup = (req, res, next) => {
   const errors = req.validationErrors();
 
   if (errors) {
+    console.log(errors);
     req.flash('errors', errors);
-    return res.redirect('/signup');
+    return res.redirect('/signUp');
   }
-  */console.log(req.body);
-  const user = new User({
-      name: req.body.name,
+
+
+  var user = new User({
     email: req.body.email,
     password: req.body.password,
   });
-  console.log(user);
-  User.findOne({ email: user.email }, (err, existingUser) => {
+
+  console.log("user: "+user);
+  User.findOne({ email: req.body.email }, (err, existingUser) => {
     if (err) {
       console.log(err);
-      return next(err); }
+      return next(err);
+    }
     if (existingUser) {
       console.log('Account with that email address already exists.');
       return res.status(409).json({msg: 'Account with that email address already exists.'});

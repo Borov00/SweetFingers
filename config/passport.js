@@ -7,14 +7,17 @@ const { OAuth2Strategy: GoogleStrategy } = require('passport-google-oauth');
 const User = require('../models/User');
 
 passport.serializeUser((user, done) => {
-  console.log("serializeUser:"+user);
+  console.log("serializeUser:"+user.id);
   done(null, user.id);
+
 });
 
 passport.deserializeUser((id, done) => {
   User.findById(id, (err, user) => {
-    console.log("deserializeUser error: "+ err+" User:"+ user);
-    done(err, user);
+    console.log('*** Deserialize user, user:')
+    console.log(user)
+    console.log('--------------')
+    done(null, user)
   });
 });
 
@@ -184,7 +187,7 @@ exports.isAuthenticated = (req, res, next) => {
     console.log(req.user + "isAuthenticated!!!");
     return next();
   }
-  console.log("Not authenticated: res.redirect('/room');");
+  console.log("Not authenticated: res.redirect('/room');" + req.user);
   res.redirect('http://localhost:3000/room');
 };
 

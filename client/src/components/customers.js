@@ -12,18 +12,18 @@ class Customers extends Component {
 
   componentDidMount() {
     fetch('/main')
-        .then(res => res.json())
-        .then(customers => this.setState({customers}, () => console.log('Customers fetched...', customers)));
+      .then(res => res.json())
+      .then(customers => this.setState({customers}, () => console.log('Customers fetched...', customers)));
   }
 
   render() {
     return (
       <div >
-        <h1>New recipes </h1>
+
         <ul className="Cust-ul">
         {this.state.customers.map(customer =>
           <li className="Cust-li" key={customer.id}>
-            <h3 className="Cust-text"> {customer.title}</h3>
+            <h3 className="Cust-text"> {customer.name}</h3>
             <li>
               Recipe: {customer._id}
                 <li className="Cust-img"> <a href="/room"> <Image href="/room" src={customer.feature_img}  height="5%" width="100%" /></a> </li>

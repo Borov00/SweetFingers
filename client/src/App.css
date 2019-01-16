@@ -1,6 +1,11 @@
+body{
+  background-color: #FAF0E6;
+}
 .App {
   text-align: center;
   font-family: "Trocchi";
+
+  height: 100%;
 }
 
 
@@ -21,10 +26,14 @@
   font-size: large;
 }
 .App-customers{
+  position: relative;
   width: 70%;
-  position: relative ;
   left: 15%;
   right: 15%;
 
-  background-color: #FAF0E6;
+}
+.App-bg{
+
+background-color: #FAF0E6;
+
 }

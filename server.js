@@ -81,7 +81,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(session({
-    resave: true,
+    resave: false,
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET,
     cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
@@ -146,10 +146,10 @@ app.get('/main',function(req,res,next){
 },  passportConfig.isAuthenticated, articleController.getAllArticles);
 app.get('/article', articleController.getOneArticle);
 
-app.get('/signin', userController.getSignin);
-app.post('/signin', userController.postSignin);
-//app.get('/signup', userController.getSignup);
-app.post('/signup', userController.postSignup);
+app.get('/signIn', userController.getSignin);
+app.post('/signIn', userController.postSignin);
+app.get('/signUp', userController.getSignup);
+app.post('/signUp', userController.postSignup);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
 app.get('/logout', userController.logout);
 app.get('/manage', passportConfig.isAuthenticated, manageController.index);
@@ -175,6 +175,7 @@ app.put("/api/set/user/", passportConfig.isAuthenticated, manageController.setUs
  */
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: 'http://localhost:3000/' }), (req, res) => {
+    console.log("google/callback");
     res.redirect('http://localhost:3000/');
 });
 app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));

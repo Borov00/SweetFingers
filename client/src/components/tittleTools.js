@@ -5,22 +5,32 @@ class Tools extends Component {
 
  render() {
    return (
-     <Nav pullRight>
-     <NavItem eventKey="1" disabled>
-      <Glyphicon glyph="glyphicon glyphicon-cutlery" />
-     </NavItem>
+    <Nav bsStyle="tabs" activeKey="1" >
      <NavItem eventKey="2" href="/">
-      <Glyphicon glyph="glyphicon glyphicon-home" />
-      HOME
-     </NavItem>
-     <NavItem eventKey="1" href="/room"  >
-      <Glyphicon glyph="glyphicon glyphicon-user" />
-      ROOM
-     </NavItem>
-     <NavItem eventKey="3" >
-       <Glyphicon glyph="glyphicon glyphicon-plus" />ADD
-     </NavItem>
+     <Glyphicon glyph="glyphicon glyphicon-home" />
+       HOME
+      </NavItem>
+      <Nav pullRight>
+        <NavItem eventKey="1" href="/room"  >
+
+        </NavItem>
      </Nav>
+     <Nav pullRight>
+       <NavItem eventKey="1" disabled  >
+         <Glyphicon glyph="glyphicon glyphicon-arrow-right" />
+       </NavItem>
+    </Nav>
+    <div className="menu">
+
+    <div className="title">MENU</div>
+    <ul className="nav">
+      <li><a href="#"><Glyphicon glyph="glyphicon glyphicon-cutlery"/>My recipes</a></li>
+      <li><a href="#"><Glyphicon glyph="glyphicon glyphicon-plus"/>Add recipe</a></li>
+
+    </ul>
+
+  </div>
+    </Nav>
    );
  }
 }

@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema({
 /**
  * Password hash middleware.
  */
+
 userSchema.pre('save', function save(next) {
   const user = this;
   if (!user.isModified('password')) { return next(); }

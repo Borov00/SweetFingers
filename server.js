@@ -24,6 +24,12 @@ const multipart = require('connect-multiparty');
 const multipartWare = multipart();
 ////////////////////////////////////////
 
+const cloudinary = require('cloudinary')
+cloudinary.config({
+    cloud_name: 'dgaslxr3t',
+    api_key: '494279988142415',
+    api_secret: 'MtK24am4PrteMkc3qRRQukXToLo'
+})
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -155,6 +161,10 @@ app.post('/signUp', userController.postSignup);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
 app.get('/logout', userController.logout);
 app.get('/manage', passportConfig.isAuthenticated, manageController.index);
+
+app.get('/my_articles', passportConfig.isAuthenticated, articleController.index);
+app.post('/my_articles', passportConfig.isAuthenticated, articleController.postArticle);
+app.get('/my_articles/all', passportConfig.isAuthenticated, articleController.getAll);
 
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount)
 

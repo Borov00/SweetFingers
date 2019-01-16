@@ -1,7 +1,7 @@
 doctype html
 head
     meta(charset='utf-8')
-    meta(username='viewport' content='width=device-width')
+    meta(name='viewport' content='width=device-width')
     title &Scy;&pcy;&icy;&scy;&ocy;&kcy; &pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&iecy;&lcy;&iecy;&jcy;
     link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet')
     script(src='https://code.jquery.com/jquery-2.2.4.min.js')
@@ -42,8 +42,8 @@ nav.navbar.navbar-inverse
             ul.nav.navbar-nav.navbar-right
                 li
                     a(href='../navbar-static-top/' style='color: white')
-                        b #{username} #{email}
-                        // b= username + " " + email
+                        b #{name} #{email}
+                        // b= name + " " + email
 
                 li
                     button.btn.btn-info(onclick="window.location.href='/logout'") Logout
@@ -51,21 +51,21 @@ nav.navbar.navbar-inverse
     // /.container-fluid
 //
   <div class="panel-body">
-  Surusername: <b><%=email%></b> Name: <b><%=username%></b><br>
+  Surname: <b><%=email%></b> Name: <b><%=name%></b><br>
   <button class="btn btn-info" onclick="window.location.href='/logout'" >Logout</button>
   </div>
 h2(align='center') List of users
 //
-  <form username="userForm">
+  <form name="userForm">
   <div class="container">
-  <input type="hidden" username="id" value="0" />
+  <input type="hidden" name="id" value="0" />
   <div class="form-group">
   <label>Name:</label>
-  <input class="form-control" username="username" />
+  <input class="form-control" name="name" />
   </div>
   <div class="form-group">
-  <label>Surusername:</label>
-  <input class="form-control" username="email" />
+  <label>Surname:</label>
+  <input class="form-control" name="email" />
   </div>
   <div class="panel-body">
   <button type="submit" class="btn btn-sm btn-primary">Save</button>
@@ -87,7 +87,7 @@ h2(align='center') List of users
                     |  ]
                 th Id
                 th Email
-                th Username
+                th Name
                 th Actions
         tbody
 script.
@@ -116,8 +116,8 @@ script.
     success: function (user) {
     var form = document.forms["userForm"];
     form.elements["id"].value = user._id;
-    form.elements["username"].value = user.email;
-    form.elements["email"].value = user.username;
+    form.elements["name"].value = user.email;
+    form.elements["email"].value = user.name;
     form.elements["status"].value = user.status;
     }
     });
@@ -129,7 +129,7 @@ script.
     contentType: "application/json",
     method: "POST",
     data: JSON.stringify({
-    username: userName,
+    name: userName,
     email: userEmail,
     }),
     success: function (user) {
@@ -146,7 +146,7 @@ script.
     method: "PUT",
     data: JSON.stringify({
     id: userId,
-    username: userName,
+    name: userName,
     email: userEmail,
     }),
     success: function (user) {
@@ -170,10 +170,10 @@ script.
             method: "DELETE",
             success: function (user) {
                 var currentEmail = "<%=email%>";
-                var currentUsername = "<%= username%>"
+                var currentName = "<%= name%>"
                 console.log(user);
                 $("tr[data-rowid='" + user._id + "']").remove();
-                if(currentUsername === user.email && currentEmail === user.username){
+                if(currentName === user.email && currentEmail === user.name){
                     location.reload();
                 }
             }
@@ -186,7 +186,7 @@ script.
             method: "PUT",
             data: JSON.stringify({
                 id: userId,
-                username: userName,
+                name: userName,
                 email: userEmail,
                 status: userStatus,
             }),
@@ -203,7 +203,7 @@ script.
             method: "PUT",
             data: JSON.stringify({
                 id: userId,
-                username: userName,
+                name: userName,
                 email: userEmail,
                 status: userStatus,
             }),
@@ -240,7 +240,7 @@ script.
             method: "PUT",
             data: JSON.stringify({
                 id: userId,
-                username: userName,
+                name: userName,
                 email: userEmail,
                 block: userBlock,
             }),
@@ -257,7 +257,7 @@ script.
             method: "PUT",
             data: JSON.stringify({
                 id: userId,
-                username: userName,
+                name: userName,
                 email: userEmail,
                 block: userBlock,
             }),
@@ -275,13 +275,13 @@ script.
             "<td>" + user.block + "</td> " +
             "<td>" + user._id + "</td> " +
             "<td>" + user.email + "</td>" +
-            "<td>" + user.username + "</td>" +
+            "<td>" + user.name + "</td>" +
             "<td>" +
             "<a class='removeLink' data-id='" + user._id + "'>Delete</a> | " +
-            "<a class='blockLink' data-id='" + user._id + "' data-email='"+user.email+"' data-username='"+user.username+"' data-status='"+user.status+"' data-block='"+user.block+"'>Block</a> | " +
-            "<a class='unblockLink' data-id='" + user._id + "' data-email='"+user.email+"' data-username='"+user.username+"' data-status='"+user.status+"' data-block='"+user.block+"'>Unblock</a> | " +
-            "<a class='adminLink' data-id='" + user._id + "' data-email='"+user.email+"' data-username='"+user.username+"' data-status='"+user.status+"' data-block='"+user.block+"'>SetAdmin</a> | "+
-            "<a class='userLink' data-id='" + user._id + "' data-email='"+user.email+"' data-username='"+user.username+"' data-status='"+user.status+"' data-block='"+user.block+"'>SetUser</a>"
+            "<a class='blockLink' data-id='" + user._id + "' data-email='"+user.email+"' data-name='"+user.name+"' data-status='"+user.status+"' data-block='"+user.block+"'>Block</a> | " +
+            "<a class='unblockLink' data-id='" + user._id + "' data-email='"+user.email+"' data-name='"+user.name+"' data-status='"+user.status+"' data-block='"+user.block+"'>Unblock</a> | " +
+            "<a class='adminLink' data-id='" + user._id + "' data-email='"+user.email+"' data-name='"+user.name+"' data-status='"+user.status+"' data-block='"+user.block+"'>SetAdmin</a> | "+
+            "<a class='userLink' data-id='" + user._id + "' data-email='"+user.email+"' data-name='"+user.name+"' data-status='"+user.status+"' data-block='"+user.block+"'>SetUser</a>"
         "</td></tr>";
     }
     // сброс значений формы
@@ -294,12 +294,12 @@ script.
     e.preventDefault();
     var id = this.elements["id"].value;
     //var block = this.elements["block"].value;
-    var username = this.elements["username"].value;
+    var name = this.elements["name"].value;
     var email = this.elements["email"].value;
     if (id == 0)
-    CreateUser( username, email);
+    CreateUser( name, email);
     else
-    EditUser(id, username, email);
+    EditUser(id, name, email);
     });*/
     /*// нажимаем на ссылку Изменить
     $("body").on("click", ".editLink", function () {
@@ -313,17 +313,17 @@ script.
     })
     $("body").on("click", ".blockLink", function () {
         var id = $(this).data("id");
-        var username = $(this).data("username");
+        var name = $(this).data("name");
         var email = $(this).data("email");
         var status = $(this).data("status");
-        BlockUser(status, id, email, username);
+        BlockUser(status, id, email, name);
     })
     $("body").on("click", ".unblockLink", function () {
         var id = $(this).data("id");
-        var username = $(this).data("username");
+        var name = $(this).data("name");
         var email = $(this).data("email");
         var status = $(this).data("status");
-        UnBlockUser(status, id, email, username);
+        UnBlockUser(status, id, email, name);
     })
     $("body").on("click", ".blockAllLink", function () {
         BlockAllusers();
@@ -333,17 +333,17 @@ script.
     })
     $("body").on("click", ".userLink", function () {
         var id = $(this).data("id");
-        var username = $(this).data("username");
+        var name = $(this).data("name");
         var email = $(this).data("email");
         var block = $(this).data("block");
-        SetUser(block, id, email, username);
+        SetUser(block, id, email, name);
     })
     $("body").on("click", ".adminLink", function () {
         var id = $(this).data("id");
-        var username = $(this).data("username");
+        var name = $(this).data("name");
         var email = $(this).data("email");
         var block = $(this).data("block");
-        SetAdmin(block, id, email, username);
+        SetAdmin(block, id, email, name);
     })
     // загрузка пользователей
     GetUsers();

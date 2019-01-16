@@ -1,12 +1,14 @@
-const cloudinary = require('cloudinary');
+const cloudinary = require('cloudinary')
+const fs = require('fs')
 const User = require('../models/User');
+const Article = require('../models/Article');
 
 cloudinary.config({
   cloud_name: 'dgaslxr3t',
   api_key: '494279988142415',
   api_secret: 'MtK24am4PrteMkc3qRRQukXToLo'
 });
-const Article = require('../models/Article');
+
 
 exports.index = (req, res) => {
   res.render('articles');
@@ -14,47 +16,40 @@ exports.index = (req, res) => {
 
 function saveArticle(obj) {
   new Article(obj).save((err, article) => {
-    if (err) res.send(err);
-    else if (!article) res.send(400);
+    if (err)
+      res.send(err)
+    else if (!article)
+      res.send(400)
     else {
-      return article.addAuthor(obj.author).then(_article => res.send(_article));
+      return article.addAuthor(obj.author).then((_article) => {
+        return res.send(_article)
+      })
     }
-    next();
-  });
-}
+    next()
+  })
+};
 
 exports.postArticle = (req, res) => {
-  image = 'https://images.pexels.com/photos/1024975/pexels-photo-1024975.jpeg?cs=srgb&dl=affair-anniversary-asad-1024975.jpg&fm=jpg';
-  cloudinary.uploader.upload(req.file.myFile.path, (result) => {
-    const obj = {
+  // if( existedTitle === title) nahuy
+  image = "https://www.rd.com/wp-content/uploads/2017/10/yes-it-s-possible-to-cook-an-egg-without-heat_618240320-oksana-mizina-760x506.jpg"
+  cloudinary.uploader.upload(image, (result) => {
+    var obj = {
       author: req.user.id,
       text: req.body.text,
       title: req.body.title,
       description: req.body.description,
       ingredients: req.body.ingredients,
       category: req.body.category,
-      feature_img: result.url,
-    };
+      feature_img: result.url != null ? result.url : ''
+    }
     saveArticle(obj);
-  }, {
+  },{
     resource_type: 'image',
     eager: [
-      { effect: 'sepia' }
+      {effect: 'sepia'}
     ]
-  });
-
-  /*console.log(`user _id: ${req.user.id}`);
-  saveArticle({
-    author: req.user.id,
-    text: req.body.text,
-    title: req.body.title,
-    description: req.body.description,
-    ingredients: req.body.ingredients,
-    category: req.body.category,
-    feature_img: '',
-  });*/
-  res.redirect('/');
-};
+  })
+}
 
 
 exports.getAllArticles = (req, res, next) => {
@@ -82,3 +77,11 @@ exports.getArticlesByRate = (req, res, next) => {
 exports.getArticleByLastDate = (req, res, next) => {
   Article.find({}).sort([['date', -1]]).exec(function(err, docs) { console.log(docs) });
 }
+
+exports.getAll = (req, res, next) => {
+  console.log(req.user.id)
+  User.find({_id: req.user.id})
+      .populate('articles').exec((err, articles)=> {
+    res.json(articles);
+  })
+};

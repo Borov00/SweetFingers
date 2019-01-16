@@ -33,11 +33,25 @@ mongoClient.connect(function(err, client){
 
     if(err) return console.log(err);
 
+    collection.findOne({name: "Bob"}(function(err, results){
+
+        console.log(results);
+        users=results;
+
+    });
+});
+mongoClient.connect(function(err, client){
+
+    const db = client.db("usersdb");
+    const collection = db.collection("example");
+
+    if(err) return console.log(err);
+
     collection.find().toArray(function(err, results){
 
         console.log(results);
         users=results;
-        
+
     });
 });
 app.use("/",function (req, res, next) {

@@ -25,7 +25,7 @@ const ArticleSchema = new mongoose.Schema(
         text: String
       }
     ]
-  }
+  }, { timestamps: true }
 );
 
 ArticleSchema.methods.clap = function() {

@@ -114,39 +114,30 @@ exports.postSignup = (req, res, next) => {
     req.flash('errors', errors);
     return res.redirect('/signUp');
   }
-
-
-  var user = new User({
+  console.log(req.body);
+  var newUser = new User({
+    name: req.body.name,
     email: req.body.email,
     password: req.body.password,
   });
 
-  console.log("user: "+user);
-  User.findOne({ email: req.body.email }, (err, existingUser) => {
+  //console.log("user: "+user);
+  User.findOne({ name: newUser.name }, (err, user) => {
     if (err) {
-      console.log(err);
-      return next(err);
+      console.log('User.js post error: ', err)
+    } else if (user) {
+      res.json({
+        error: `Sorry, already a user with the name: ${newUser.name}`
+      })
     }
-    if (existingUser) {
-      console.log('Account with that email address already exists.');
-      return res.status(409).json({msg: 'Account with that email address already exists.'});
+    else {
+      newUser.save((err, savedUser) => {
+        if (err) return res.json(err)
+        console.log("user signed up: "+savedUser);
+        res.json(savedUser)
+      })
     }
-    User.create((user,err) => {
-      if (err) {
-        console.log(err);
-        return next(err); }
-      req.logIn(user, (err) => {
-        if (err) {
-          console.log(err);
-          return next(err);
-        }
-        console.log(user);
-        console.log('Successfully signed up.');
-        res.json({user: 'someone'})
-        res.status(200).json({msg: 'Successfully signed up.'});
-      });
-    });
-  });
+  })
 };
 
 /**

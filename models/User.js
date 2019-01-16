@@ -15,10 +15,6 @@ const userSchema = new mongoose.Schema({
   name: String,
   articles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
 
-
-
-
-
   facebook: String,
   google: String,
   tokens: Array,

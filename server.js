@@ -145,7 +145,9 @@ app.get('/main',function(req,res,next){
     next();
 },  passportConfig.isAuthenticated, articleController.getAllArticles);
 app.get('/article', articleController.getOneArticle);
-
+app.get('/article/by/date', articleController.getArticleByLastDate);
+app.get('/my_articles', passportConfig.isAuthenticated, articleController.index);
+app.post('/my_articles', passportConfig.isAuthenticated, articleController.postArticle);
 app.get('/signIn', userController.getSignin);
 app.post('/signIn', userController.postSignin);
 app.get('/signUp', userController.getSignup);

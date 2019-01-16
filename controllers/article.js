@@ -74,3 +74,11 @@ exports.getOneArticle = (req, res, next) => {
     res.json(customers);
   });
 };
+
+exports.getArticlesByRate = (req, res, next) => {
+  Article.find({rate})
+}
+
+exports.getArticleByLastDate = (req, res, next) => {
+  Article.find({}).sort([['date', -1]]).exec(function(err, docs) { console.log(docs) });
+}

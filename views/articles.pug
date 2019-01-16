@@ -28,18 +28,8 @@ block content
         .form-group.row
             label.col-md-3.col-form-label.font-weight-bold.text-right(for='description') File Input
             .col-md-6
-                input(type='file', name='myFile', id='myFile', autocomplete='off')
+                input(type='file', name='myFile', autocomplete='off')
         .form-group.offset-sm-3.col-md-7.pl-2
             button.btn.btn-success(type='submit')
                 i.fas.fa-user-plus.fa-sm
                 | Create Article
-
-    each article in articles
-        p=article.author.name
-        h3=article.title
-        p=article.text
-        p=article.description
-        p=article.ingredients
-        p=article.category
-        p=article.feature_img
-

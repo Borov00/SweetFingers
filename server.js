@@ -161,10 +161,13 @@ app.post('/signUp', userController.postSignup);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
 app.get('/logout', userController.logout);
 app.get('/manage', passportConfig.isAuthenticated, manageController.index);
-
+app.get('/app', passportConfig.isAuthenticated, function(req,res){
+    res.json({success: false});
+});
 app.get('/my_articles', passportConfig.isAuthenticated, articleController.index);
 app.post('/my_articles', passportConfig.isAuthenticated, articleController.postArticle);
-app.get('/my_articles/all', passportConfig.isAuthenticated, articleController.getAll);
+app.get('/my_articles/all', passportConfig.isAuthenticated, articleController.getAllForOne);
+//app.post('/my_articles/all', passportConfig.isAuthenticated, articleController.getAll);
 
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount)
 

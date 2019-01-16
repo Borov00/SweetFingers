@@ -64,9 +64,7 @@ exports.getAllArticles = (req, res, next) => {
 exports.getOneArticle = (req, res, next) => {
   Article.find().exec(function(err, results){
     console.log(results);
-    recipes=results;
-    let customers=recipes;
-    res.json(customers);
+    res.json(results);
   });
 };
 
@@ -78,10 +76,15 @@ exports.getArticleByLastDate = (req, res, next) => {
   Article.find({}).sort([['date', -1]]).exec(function(err, docs) { console.log(docs) });
 }
 
-exports.getAll = (req, res, next) => {
+exports.getAllForOne = (req, res, next) => {
   console.log(req.user.id)
-  User.find({_id: req.user.id})
-      .populate('articles').exec((err, articles)=> {
+  Article.find({ author:  req.user.id}).
+  populate('articles').
+  exec(function (err, articles) {
+    if (err) return handleError(err);
+    //console.log('The author is %s', article.author);
+    console.log(articles);
     res.json(articles);
-  })
+    // prints "The author is Ian Fleming"
+  });
 };

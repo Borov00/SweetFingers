@@ -7,12 +7,12 @@ const ArticleSchema = new mongoose.Schema(
     description: String,
     ingredients: String,
     category: String,
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     feature_img: String,
       claps: {
-          voters: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-          amount: {type: Number, default: 0}
-      },
-      rates: {
           voters: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
           amount: {type: Number, default: 0}
       },
@@ -24,7 +24,11 @@ const ArticleSchema = new mongoose.Schema(
         },
         text: String
       }
-    ]
+    ],
+      rates: {
+          voters: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+          amount: {type: Number, default: 0}
+      },
   }, {timestamps: true}
 );
 

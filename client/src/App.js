@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import axios from 'axios'
 import Customers from './components/customers';
 import Navbars from './components/navbar';
 import Forms from './components/forms';
@@ -13,14 +13,38 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import {Form} from 'react-bootstrap';
 class App extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
-      status: false
-    };
+      loggedIn: false,
+      username: null
+    }
     this.functionq=this.functionq.bind(this);
+    this.getUser = this.getUser.bind(this)
+    this.componentDidMount = this.componentDidMount.bind(this)
+    this.updateUser = this.updateUser.bind(this)
+  }
+
+  componentDidMount() {
+    this.getUser()
+  }
+
+  updateUser (userObject) {
+    this.setState(userObject)
+  }
+
+  getUser() {
+    axios.get('/main2').then(response => {
+
+      if (response.data) {
+        this.setState({loggedIn: response.data.success})
+
+      } else {
+        this.setState({loggedIn: false})
+      }
+    })
   }
   functionq(){
-    if (this.state.status===true) {
+    if (this.state.loggedIn===true) {
       return(
         <Tools2/>
       )
@@ -51,17 +75,17 @@ class App extends Component {
             <Navbars tittle="Sign IN" />
               <Form className="App-customers">
 
-                <Forms />
+                <Forms status={this.state.loggedIn}/>
                 </Form>
           </div>
         )}/>
         <Route exact={true} path='/signUp' render={() => (
           <div >
-          <Headers/>
+          {this.functionq()}
             <Navbars tittle="Sign UP"/>
               <Form className="App-customers">
 
-                <Forms1/>
+                <Forms1 status={this.state.loggedIn}/>
                 </Form>
           </div>
         )}/>
@@ -70,7 +94,7 @@ class App extends Component {
           <Tools/>
             <Navbars tittle="Room"/>
               <form className="App-customers">
-                <Room/>
+                <Room status={this.state.loggedIn}/>
 
               </form>
           </div>

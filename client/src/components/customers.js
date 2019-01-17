@@ -23,10 +23,10 @@ class Customers extends Component {
         <ul className="Cust-ul">
         {this.state.customers.map(customer =>
           <li className="Cust-li" key={customer.id}>
-            <h3 className="Cust-text"> {customer.name}</h3>
+            <h1 className="Cust-text"> {customer.title}</h1>
             <li>
               Recipe: {customer._id}
-                <li className="Cust-img"> <a href="/room"> <Image href="/room" src={customer.feature_img}  height="5%" width="100%" /></a> </li>
+                <li className="Cust-img"> <a href="/room"> <Image className="Cust-image" href="/room" src={customer.feature_img}  height="5%" width="100%" /></a> </li>
             </li>
           </li>
         )}

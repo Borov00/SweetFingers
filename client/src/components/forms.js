@@ -9,11 +9,11 @@ class LoginForm extends Component {
     this.state = {
       email: '',
       password: '',
-      redirectTo: null
+      href: "",
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
-
+    this.functionq=this.functionq.bind(this)
   }
 
   handleChange(event) {
@@ -23,8 +23,7 @@ class LoginForm extends Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault()
-    console.log('handleSubmit')
+      console.log('handleSubmit')
 
     axios
         .post('/signIn', {
@@ -34,16 +33,7 @@ class LoginForm extends Component {
         .then(response => {
           console.log('login response: ')
           console.log(response)
-          if (response.status === 200) {
-            // update App.js state
-            this.props.updateUser({
-              loggedIn: true,
-              email: response.data.email
-            })
-            // update the state to redirect to home
-            this.setState({
-              redirectTo: '/'
-            })
+          if (response) {
           }
         }).catch(error => {
       console.log('login error: ')
@@ -51,74 +41,82 @@ class LoginForm extends Component {
 
     })
   }
+  functionq(){
+      if(!this.props.status) {
+        return (
+          <form className="Form-size1">
+              <FormGroup>
+              <Glyphicon glyph="glyphicon glyphicon-envelope" />
+              <ControlLabel>Email</ControlLabel>
+                <FormControl
+                       type="email"
+                       id="email"
+                       name="email"
+                       placeholder="Email"
+                       value={this.state.email}
+                       onChange={this.handleChange}
+                />
+              </FormGroup>
+              <FormGroup>
+              <Glyphicon glyph="glyphicon glyphicon-lock" />
+              <ControlLabel>Password</ControlLabel>
+                <FormControl
+                       type="password"
+                       id="password"
+                       name="password"
+                       placeholder="Password"
+                       value={this.state.password}
+                       onChange={this.handleChange}
+                />
+                <Button
+
+                    className="Form-btn"
+                    onClick={this.handleSubmit}
+                    href={this.state.href}
+                    type="submit">
+                    Login
+                </Button>
+
+              </FormGroup>
+
+            <FormGroup>
+            <a href="http://localhost:5000/auth/facebook">
+              <Image
+                  src="http://www.delgosea.eu/var/ezwebin_site/storage/images/media/images/fb-icon/7363-1-eng-GB/fb-icon.jpg"
+                  circle width="10%"
+                  heignt="10%"
+              />
+            </a>
+            <a href="http://localhost:5000/auth/google">
+              <Image
+                  src="https://yt3.ggpht.com/a-/AN66SAwKgKC5at8ZPnDOpe2iTpPw73EIKyNf1IPTEg=s900-mo-c-c0xffffffff-rj-k-no"
+                  circle width="10%"
+                  hieght="10%"
+              />
+            </a>
+          </FormGroup>
+          </form>
+        )
+      } else {
+        return(
+          <form>
+            <h1>Authorizated</h1>
+            <Redirect to={{pathname: "/room"}}/>
+          </form>
+        )
+      }
+  }
 
   render() {
-    if (this.state.redirectTo) {
-      return <Redirect to={{ pathname: this.state.redirectTo }} />
-    } else {
+
       return (
           <div>
-            <h4>Login</h4>
-            <form className="form-horizontal">
-              <div className="form-group">
-                <div className="col-1 col-ml-auto">
-                  <label className="form-label" htmlFor="email">Email</label>
-                </div>
-                <div className="col-3 col-mr-auto">
-                  <input className="form-input"
-                         type="text"
-                         id="email"
-                         name="email"
-                         placeholder="Email"
-                         value={this.state.email}
-                         onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className="form-group">
-                <div className="col-1 col-ml-auto">
-                  <label className="form-label" htmlFor="password">Password: </label>
-                </div>
-                <div className="col-3 col-mr-auto">
-                  <input className="form-input"
-                         placeholder="password"
-                         type="password"
-                         name="password"
-                         value={this.state.password}
-                         onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className="form-group ">
-                <div className="col-7"></div>
-                <button
-                    className="btn btn-primary col-1 col-mr-auto"
-
-                    onClick={this.handleSubmit}
-                    type="submit">Login</button>
-              </div>
-              <FormGroup>
-              <a href="http://localhost:5000/auth/facebook">
-                <Image
-                    src="http://www.delgosea.eu/var/ezwebin_site/storage/images/media/images/fb-icon/7363-1-eng-GB/fb-icon.jpg"
-                    circle width="10%"
-                    heignt="10%"
-                />
-              </a>
-              <a href="http://localhost:5000/auth/google">
-                <Image
-                    src="https://yt3.ggpht.com/a-/AN66SAwKgKC5at8ZPnDOpe2iTpPw73EIKyNf1IPTEg=s900-mo-c-c0xffffffff-rj-k-no"
-                    circle width="10%"
-                    hieght="10%"
-                />
-              </a>
-            </FormGroup>
-            </form>
+          {this.functionq()}
           </div>
 
       )
     }
-  }
+
 }
 
 export default LoginForm

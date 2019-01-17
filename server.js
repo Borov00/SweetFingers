@@ -149,7 +149,9 @@ app.use("/",function (req, res, next) {
 app.get('/main',function(req,res,next){
     console.log("res.session.id : "+req.session.user);
     next();
-},  passportConfig.isAuthenticated, articleController.getAllArticles);
+},   articleController.getAllArticles);
+app.get('/bc_room', passportConfig.isAuthenticated, userController.getAccount1);
+app.get('/main2', passportConfig.isAuthenticated, articleController.getAllArticles2);
 app.get('/article', articleController.getOneArticle);
 app.get('/article/by/date', articleController.getArticleByLastDate);
 app.get('/my_articles', passportConfig.isAuthenticated, articleController.index);
@@ -161,13 +163,10 @@ app.post('/signUp', userController.postSignup);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
 app.get('/logout', userController.logout);
 app.get('/manage', passportConfig.isAuthenticated, manageController.index);
-app.get('/app', passportConfig.isAuthenticated, function(req,res){
-    res.json({success: false});
-});
+
 app.get('/my_articles', passportConfig.isAuthenticated, articleController.index);
 app.post('/my_articles', passportConfig.isAuthenticated, articleController.postArticle);
 app.get('/my_articles/all', passportConfig.isAuthenticated, articleController.getAllForOne);
-//app.post('/my_articles/all', passportConfig.isAuthenticated, articleController.getAll);
 
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount)
 

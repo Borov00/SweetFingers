@@ -9,6 +9,7 @@ const User = require('../models/User');
 passport.serializeUser((user, done) => {
   console.log("serializeUser:"+user.id);
   done(null, user.id);
+
 });
 
 passport.deserializeUser((id, done) => {
@@ -187,7 +188,6 @@ exports.isAuthenticated = (req, res, next) => {
     return next();
   }
   console.log("Not authenticated: res.redirect('/room');" + req.user);
-  res.redirect('http://localhost:3000/room');
 };
 
 /**

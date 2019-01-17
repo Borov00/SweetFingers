@@ -29,6 +29,20 @@ function saveArticle(obj) {
   })
 };
 
+exports.getAllForOne = (req, res, next) => {
+  console.log(req.user.id)
+  Article.find({ author:  req.user.id}).
+  populate('articles').
+  exec(function (err, articles) {
+    if (err) return handleError(err);
+    //console.log('The author is %s', article.author);
+    console.log(articles);
+    res.json(articles);
+    // prints "The author is Ian Fleming"
+  });
+};
+
+
 exports.postArticle = (req, res) => {
   // if( existedTitle === title) nahuy
   image = "https://www.rd.com/wp-content/uploads/2017/10/yes-it-s-possible-to-cook-an-egg-without-heat_618240320-oksana-mizina-760x506.jpg"
@@ -60,11 +74,16 @@ exports.getAllArticles = (req, res, next) => {
     res.json(customers);
   });
 };
+exports.getAllArticles2 = (req, res, next) => {
+    res.json({success:true});
+};
 
 exports.getOneArticle = (req, res, next) => {
   Article.find().exec(function(err, results){
     console.log(results);
-    res.json(results);
+    recipes=results;
+    let customers=recipes;
+    res.json(customers);
   });
 };
 
@@ -76,15 +95,10 @@ exports.getArticleByLastDate = (req, res, next) => {
   Article.find({}).sort([['date', -1]]).exec(function(err, docs) { console.log(docs) });
 }
 
-exports.getAllForOne = (req, res, next) => {
+exports.getAll = (req, res, next) => {
   console.log(req.user.id)
-  Article.find({ author:  req.user.id}).
-  populate('articles').
-  exec(function (err, articles) {
-    if (err) return handleError(err);
-    //console.log('The author is %s', article.author);
-    console.log(articles);
+  User.find({_id: req.user.id})
+      .populate('articles').exec((err, articles)=> {
     res.json(articles);
-    // prints "The author is Ian Fleming"
-  });
+  })
 };

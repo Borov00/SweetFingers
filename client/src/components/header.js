@@ -17,8 +17,8 @@ class Headers extends Component {
 
          <Nav pullRight>
           <NavItem eventKey="1"  href="/signIn" >
-            <Glyphicon glyph="glyphicon glyphicon-user" />
-            SignIN
+            <Glyphicon glyph="glyphicon glyphicon-log-in" />
+            _SignIN
           </NavItem>
         </Nav>
         <Nav pullRight>

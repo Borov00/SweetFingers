@@ -1,6 +1,6 @@
 const { promisify } = require('util');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
+//const nodemailer = require('nodemailer');
 const passport = require('passport');
 const User = require('../models/User');
 
@@ -27,16 +27,16 @@ exports.getSignin = (req, res) => {
  * Sign in using email and password.
  */
 exports.postSignin = (req, res, next) => {
-  req.assert('email', 'Email is not valid').isEmail();
-  req.assert('password', 'Password cannot be blank').notEmpty();
-  req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
-
-  const errors = req.validationErrors();
-  if (errors) {
-    console.log(errors);
-    req.flash('errors', errors);
-    return res.redirect('/login');
-  }
+  // req.assert('email', 'Email is not valid').isEmail();
+  // req.assert('password', 'Password cannot be blank').notEmpty();
+  // req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
+  //
+  // const errors = req.validationErrors();
+  // if (errors) {
+  //   console.log(errors);
+  //   req.flash('errors', errors);
+  //   return res.redirect('/login');
+  // }
 
   passport.authenticate('local', (err, user, info) => {
     if (err) {
@@ -59,11 +59,11 @@ exports.postSignin = (req, res, next) => {
       console.log(req.session);
       console.log(req.session.id);
       console.log(req.cookie);
-      /*req.status(200).json(
+      res.status(200).json(
           {
             success: true,
             msg: 'Success! You are logged in.'
-          });*/
+          });
       res.redirect(req.session.returnTo || 'http://localhost:3000/');
     });
   })(req, res, next);
@@ -73,6 +73,18 @@ exports.postSignin = (req, res, next) => {
  * GET /logout
  * Log out.
  */
+ exports.getAccount1 = (req, res) => {
+console.log("GET USER ID FOR ROOM: "+req.user.id);
+console.log("---------------f-------------------");
+console.log("GET USER FOR ROOM: "+req.user);
+res.json(req.user);
+/*User.find().exec(function(err, user){
+if (err) console.log(err)
+if (!user) console.log(user)
+res.json(user);
+});*/
+
+};
 exports.logout = (req, res) => {
   console.log(req.user);
   req.logout();
@@ -80,7 +92,7 @@ exports.logout = (req, res) => {
     if (err) console.log('Error : Failed to destroy the session during logout.', err);
     console.log("Has been logged out:" + req.user);
     req.user = null;
-    res.status(200).json({msg: "Succesc! You are logged out"});
+    res.redirect('http://localhost:3000/');
   });
 };
 
@@ -102,7 +114,7 @@ exports.getSignup = (req, res) => {
  * Create a new local account.
  */
 exports.postSignup = (req, res, next) => {
-  req.assert('email', 'Email is not valid').isEmail();
+  /*req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password must be at least 4 characters long').len(4);
   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
   req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
@@ -113,7 +125,7 @@ exports.postSignup = (req, res, next) => {
     console.log(errors);
     req.flash('errors', errors);
     return res.redirect('/signUp');
-  }
+  }*/
   console.log(req.body);
   var newUser = new User({
     name: req.body.name,
@@ -122,12 +134,12 @@ exports.postSignup = (req, res, next) => {
   });
 
   //console.log("user: "+user);
-  User.findOne({ name: newUser.name }, (err, user) => {
+  User.findOne({ email: newUser.email }, (err, user) => {
     if (err) {
       console.log('User.js post error: ', err)
     } else if (user) {
       res.json({
-        error: `Sorry, already a user with the name: ${newUser.name}`
+        error: `Sorry, already a user with the email: ${newUser.email}`
       })
     }
     else {

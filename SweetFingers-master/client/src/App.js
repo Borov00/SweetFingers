@@ -94,7 +94,7 @@ class App extends Component {
           <Tools/>
             <Navbars tittle="Room"/>
               <form className="App-customers">
-                <Room/>
+                <Room status={this.state.loggedIn}/>
 
               </form>
           </div>

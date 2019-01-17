@@ -188,7 +188,6 @@ exports.isAuthenticated = (req, res, next) => {
     return next();
   }
   console.log("Not authenticated: res.redirect('/room');" + req.user);
-  res.redirect('http://localhost:3000/room');
 };
 
 /**

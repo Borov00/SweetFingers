@@ -150,6 +150,7 @@ app.get('/main',function(req,res,next){
     console.log("res.session.id : "+req.session.user);
     next();
 },   articleController.getAllArticles);
+app.get('/bc_room', passportConfig.isAuthenticated, userController.getAccount1);
 app.get('/main2', passportConfig.isAuthenticated, articleController.getAllArticles2);
 app.get('/article', articleController.getOneArticle);
 app.get('/article/by/date', articleController.getArticleByLastDate);

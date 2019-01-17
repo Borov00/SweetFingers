@@ -1,56 +1,76 @@
 import React, { Component } from 'react';
 import './customers.css';
+import { Redirect } from 'react-router-dom'
 import {Glyphicon ,FormGroup,FormControl,ControlLabel,Button ,Image } from 'react-bootstrap';
-import './customers.css';
+import axios from "axios";
 
 import Autocomplete from "./autocomplete";
 
 class Room extends Component {
+  constructor() {
+    super();
+      this.state = {
+        user: [],
+      }
+    }
+    componentDidMount() {
+      axios.get('/bc_room').then(response => {
 
-  state ={
-    name:"Tom",
-    email:"ASDFASDF@QASDFADS.com",
-    status: "user"
-  }
+        if (response.data) {
+          console.log(response.data)
+          this.setState({user: response.data})
+          console.log(this.state.user)
+        } else {
+          console.log("nihuya")
+        }
+      })
+    }
+functionq(){
+
+  return (
+
+          <form className="Form-size1">
+          <h3>{this.state.user.name} </h3>
+          <FormGroup className="Room-forms">
+            <Glyphicon glyph="glyphicon glyphicon-user" />
+            <ControlLabel>Your Name</ControlLabel>
+            <FormControl
+              type="text"
+              defaultValue={this.state.user.name}
+              required
+            />
+
+          </FormGroup>
+          <FormGroup className="Room-forms">
+            <Glyphicon glyph="glyphicon glyphicon-envelope" />
+            <ControlLabel>Your Email</ControlLabel>
+            <FormControl
+              type="email"
+              defaultValue={this.state.user.email}
+
+            />
+          </FormGroup>
+          <FormGroup className="Room-forms">
+
+            <Glyphicon glyph="glyphicon glyphicon-briefcase" />
+            <ControlLabel>Your Status</ControlLabel>
+            <FormControl
+              type="text"
+              value={this.state.user.status}
+            />
+            <Button  className="Form-btn-2">edit<Glyphicon glyph="glyphicon glyphicon-pencil" /></Button >
+          </FormGroup>
+          </form>
+
+  );
+
+}
   render() {
-    return (
+    return(
       <div>
-
-            <form className="Form-size1">
-            <FormGroup className="Room-form">
-              <Glyphicon glyph="glyphicon glyphicon-user" />
-              <ControlLabel>Your Name</ControlLabel>
-              <FormControl
-                type="text"
-                placeholder={this.state.name}
-
-              />
-
-            </FormGroup>
-            <FormGroup className="Room-form">
-              <Glyphicon glyph="glyphicon glyphicon-envelope" />
-              <ControlLabel>Your Email</ControlLabel>
-              <FormControl
-                type="email"
-                placeholder={this.state.email}
-                glyph="glyphicon glyphicon-envelope"
-              />
-            </FormGroup>
-            <FormGroup className="Room-form">
-
-              <Glyphicon glyph="glyphicon glyphicon-briefcase" />
-              <ControlLabel>Your Status</ControlLabel>
-              <FormControl
-                type="text"
-                placeholder={this.state.status}
-              />
-              <Button  className="Form-btn-2">edit<Glyphicon glyph="glyphicon glyphicon-pencil" /></Button >
-            </FormGroup>
-            </form>
-
-
-      </div>
-    );
+      {this.functionq()}
+    </div>
+  )
   }
 }
 

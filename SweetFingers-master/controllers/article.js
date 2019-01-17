@@ -61,9 +61,7 @@ exports.getAllArticles = (req, res, next) => {
   });
 };
 exports.getAllArticles2 = (req, res, next) => {
-  Article.find().exec(function(err, results){
     res.json({success:true});
-  });
 };
 
 exports.getOneArticle = (req, res, next) => {

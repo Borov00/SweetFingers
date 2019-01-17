@@ -96,12 +96,14 @@ class Signup extends Component {
                      onChange={this.handleChange}
               />
               </FormGroup>
+          <div className="form-group ">
+            <div className="col-7"></div>
             <Button
                 className="Form-btn"
                 onClick={this.handleSubmit}
                 type="submit"
             >Sign up</Button>
-
+          </div>
         </form>
     )
 
@@ -113,8 +115,8 @@ class Signup extends Component {
       </form>
     )
 
-
   }
+}
 
   render() {
     return (

@@ -73,6 +73,18 @@ exports.postSignin = (req, res, next) => {
  * GET /logout
  * Log out.
  */
+ exports.getAccount1 = (req, res) => {
+console.log("GET USER ID FOR ROOM: "+req.user.id);
+console.log("---------------f-------------------");
+console.log("GET USER FOR ROOM: "+req.user);
+res.json(req.user);
+/*User.find().exec(function(err, user){
+if (err) console.log(err)
+if (!user) console.log(user)
+res.json(user);
+});*/
+
+};
 exports.logout = (req, res) => {
   console.log(req.user);
   req.logout();
@@ -80,7 +92,7 @@ exports.logout = (req, res) => {
     if (err) console.log('Error : Failed to destroy the session during logout.', err);
     console.log("Has been logged out:" + req.user);
     req.user = null;
-    res.status(200).json({msg: "Succesc! You are logged out"});
+    res.redirect('http://localhost:3000/');
   });
 };
 

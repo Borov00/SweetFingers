@@ -9,6 +9,7 @@ import Forms1 from './components/forms2';
 import Room from './components/room';
 import Tools from './components/tittleTools';
 import Tools2 from './components/tittleTools2';
+import  UserArticles from './components/userArticles';
 import {BrowserRouter, Route} from 'react-router-dom';
 import {Form} from 'react-bootstrap';
 class App extends Component {
@@ -95,6 +96,16 @@ class App extends Component {
             <Navbars tittle="Room"/>
               <form className="App-customers">
                 <Room status={this.state.loggedIn}/>
+
+              </form>
+          </div>
+        )}/>
+        <Route exact={true} path='/myarticles' render={() => (
+          <div >
+          <Tools/>
+            <Navbars tittle="My Articles"/>
+              <form className="App-customers">
+                <UserArticles status={this.state.loggedIn}/>
 
               </form>
           </div>

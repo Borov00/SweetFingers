@@ -6,7 +6,8 @@ class Navbars extends Component {
   render() {
     return (
       <div className="Nav-body">
-        <h1>{this.props.tittle}</h1>
+        <div className="Sweet">{this.props.sweet}</div>
+        <h1 >{this.props.tittle}</h1>
         <p>
         <Grid>
           <Row>

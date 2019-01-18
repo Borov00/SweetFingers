@@ -9,15 +9,17 @@ import Forms1 from './components/forms2';
 import Room from './components/room';
 import Tools from './components/tittleTools';
 import Tools2 from './components/tittleTools2';
-import  UserArticles from './components/userArticles';
-import {BrowserRouter, Route} from 'react-router-dom';
+import About from './components/Add';
+import UserArticles from './components/usersArticles';
+import {BrowserRouter, Route,Switch} from 'react-router-dom';
 import {Form} from 'react-bootstrap';
 class App extends Component {
   constructor() {
     super()
     this.state = {
       loggedIn: false,
-      username: null
+      username: null,
+
     }
     this.functionq=this.functionq.bind(this);
     this.getUser = this.getUser.bind(this)
@@ -59,18 +61,19 @@ class App extends Component {
     return (
 <BrowserRouter>
         <div className="App">
-        <Route exact={true} path='/' render={() => (
+        <Switch>
+        <Route exact path='/' render={() => (
           <div >
             {this.functionq()}
 
-              <Navbars tittle="New Recipes"/>
+              <Navbars tittle="New Recipes" sweet="Sweet Fingers"/>
               <Form className="App-customers">
 
                 <Customers/>
                 </Form>
           </div>
         )}/>
-        <Route exact={true} path='/signIn' render={() => (
+        <Route  path='/signIn' render={() => (
           <div>
           {this.functionq()}
             <Navbars tittle="Sign IN" />
@@ -80,7 +83,7 @@ class App extends Component {
                 </Form>
           </div>
         )}/>
-        <Route exact={true} path='/signUp' render={() => (
+        <Route path='/signUp' render={() => (
           <div >
           {this.functionq()}
             <Navbars tittle="Sign UP"/>
@@ -90,26 +93,27 @@ class App extends Component {
                 </Form>
           </div>
         )}/>
-        <Route exact={true} path='/room' render={() => (
+        <Route  path='/room' render={() => (
           <div >
           <Tools/>
             <Navbars tittle="Room"/>
               <form className="App-customers">
                 <Room status={this.state.loggedIn}/>
-
               </form>
           </div>
         )}/>
-        <Route exact={true} path='/myarticles' render={() => (
+        <Route path='/myArticles' render={() => (
           <div >
           <Tools/>
-            <Navbars tittle="My Articles"/>
+            <Navbars tittle="My Recipes"/>
               <form className="App-customers">
                 <UserArticles status={this.state.loggedIn}/>
 
               </form>
           </div>
         )}/>
+        <Route path="/about/:id" component={About} />
+        </Switch>
         </div>
 </BrowserRouter>
     );

@@ -11,15 +11,14 @@ class Room extends Component {
     super();
       this.state = {
         user: [],
+
       }
     }
     componentDidMount() {
       axios.get('/bc_room').then(response => {
 
         if (response.data) {
-          console.log(response.data)
           this.setState({user: response.data})
-          console.log(this.state.user)
         } else {
           console.log("nihuya")
         }
@@ -66,8 +65,9 @@ functionq(){
 
 }
   render() {
+
     return(
-      <div>
+      <div> {this.props.id}
       {this.functionq()}
     </div>
   )

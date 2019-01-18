@@ -58,7 +58,7 @@ class Signup extends Component {
               <FormControl className="form-input"
                      placeholder="NickName"
                      type="text"
-                     name="nickname"
+                     name="name"
                      onChange={this.handleChange}
               />
               </FormGroup>

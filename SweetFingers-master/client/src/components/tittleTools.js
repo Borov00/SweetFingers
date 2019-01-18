@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Button,Jumbotron, Nav,Navbar,NavItem,MenuItem,NavDropdown,Glyphicon  } from 'react-bootstrap';
-import axios from 'axios'
+import axios from "axios"
 class Tools extends Component {
   constructor() {
     super();
@@ -10,11 +10,8 @@ class Tools extends Component {
     }
     componentDidMount() {
       axios.get('/bc_room').then(response => {
-
         if (response.data) {
-
           this.setState({user: response.data})
-
         } else {
           console.log("nihuya")
         }
@@ -23,22 +20,7 @@ class Tools extends Component {
     functionq() {
       if(this.state.user.status==="admin") {
         return(
-          <ul className="nav">
-            <li><a href="#"><Glyphicon glyph="glyphicon glyphicon-cutlery"/>My recipes</a></li>
-            <li><a href="#"><Glyphicon glyph="glyphicon glyphicon-plus"/>Add recipe</a></li>
-            <li><a href="http://localhost:5000/manage"><Glyphicon glyph="glyphicon glyphicon-tasks"/>Manage</a></li>
-            <li><a href="http://localhost:5000/logout"><Glyphicon glyph="glyphicon glyphicon-log-out"/>Log-Out</a></li>
-
-          </ul>
-        )
-      } else {
-        return(
-          <ul className="nav">
-            <li><a href="#"><Glyphicon glyph="glyphicon glyphicon-cutlery"/>My recipes</a></li>
-            <li><a href="#"><Glyphicon glyph="glyphicon glyphicon-plus"/>Add recipe</a></li>
-            <li><a href="http://localhost:5000/logout"><Glyphicon glyph="glyphicon glyphicon-log-out"/>Log-Out</a></li>
-
-          </ul>
+          <li><a href="http://localhost:5000/manage"><Glyphicon glyph="glyphicon glyphicon-tasks"/>Manage</a></li>
         )
       }
     }
@@ -60,9 +42,15 @@ class Tools extends Component {
        </NavItem>
     </Nav>
     <div className="menu">
-      {this.functionq()}
-    <div className="title">MENU</div>
 
+    <div className="title">MENU</div>
+    <ul className="nav">
+      <li><a href="/room"><Glyphicon glyph="glyphicon glyphicon-user"/>My room</a></li>
+      <li><a href="/myArticles"><Glyphicon glyph="glyphicon glyphicon-cutlery"/>My recipes</a></li>
+      <li><a href="#"><Glyphicon glyph="glyphicon glyphicon-plus"/>Add recipe</a></li>
+      <li><a href="http://localhost:5000/logout"><Glyphicon glyph="glyphicon glyphicon-log-out"/>Log-Out</a></li>
+      {this.functionq()}
+    </ul>
 
   </div>
     </Nav>

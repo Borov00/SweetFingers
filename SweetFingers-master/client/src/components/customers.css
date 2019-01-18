@@ -1,31 +1,98 @@
 .Nav-body {
   text-align: center;
 }
-
+.Sweet{
+ color: #d54d7b;
+ font-family: "Great Vibes", cursive;
+ font-size: 140px;
+ line-height: 140px;
+ font-weight: normal;
+ margin-bottom: 0px;
+ margin-top: 40px;
+ text-align: center;
+ text-shadow: 0 1px 1px #fff;
+}
 .Cust-ul {
+  position: relative;
   padding:0;
   list-style:none;
   width: 100%;
   margin:auto;
-  border: 2spx solid #777;
+
+
+}
+blockquote {
+margin: 0;
+background: #FAF0E6;
+color: #474C4F;
+padding: 30px;
+position: relative;
+text-align: center;
+text-transform: uppercase;
+font-family: 'Lato', sans-serif;
+}
+blockquote:before {
+content: "";
+font-family: FontAwesome;
+position: absolute;
+z-index: 2;
+left: 50%;
+transform: translateX(-50%);
+top: 14px;
+color: #474C4F;
+font-size: 20px;
+padding: 0 15px;
+}
+blockquote:after {
+content: "";
+position: absolute;
+left: 15px;
+top: 20px;
+right: 15px;
+height: 4px;
+border-top: 1px dotted #474C4F;
+border-bottom: 1px dotted #474C4F;
+}
+blockquote p {
+font-size: 50px;
+letter-spacing: .05em;
+line-height: 1.4;
+}
+blockquote footer {
+  font-size:35px;
+  letter-spacing: .05em;
+  line-height: 1.4;
+}
+blockquote cite {
+font-style: normal;
+font-weight: 300;
+}
+.Nav-art {
+  border: 1px solid #474C4F;
+  background: #F0F8FF;
+}
+.Cust-text {
+
 
 }
 .Cust-h1{
   border-bottom: 1px double #777;
 }
 .Cust-li{
-  border-radius: 0 10px 20px;
-  font-size:1.2rem;
-  line-height: 2rem;
-  border-bottom: 3px solid #777;
+
+  font-size:5rem;
+  line-height: 5rem;
   padding: 10px;
+  border-left: 1px dotted #474C4F;
 }
 .Cust-img{
+
   border-radius: 0 10px 20px;
   text-align: center;
 }
 .Cust-image{
-  border-radius:  50px 100px;
+  width: 80%;
+  border-radius:  50px 50px;
   text-align: center;
 }
 
@@ -48,8 +115,6 @@
   margin-right: 25%;
   align-items: center;
   width: 50%;
-}
-.Room-forms {
   text-align: center;
 }
 

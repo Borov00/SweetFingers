@@ -14,9 +14,6 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   User.findById(id, (err, user) => {
-    console.log('*** Deserialize user, user:')
-    console.log(user)
-    console.log('--------------')
     done(null, user)
   });
 });
@@ -187,7 +184,7 @@ exports.isAuthenticated = (req, res, next) => {
     console.log(req.user + "isAuthenticated!!!");
     return next();
   }
-  console.log("Not authenticated: res.redirect('/room');" + req.user);
+  console.log("Not authenticated; user: " + req.user);
 };
 
 /**

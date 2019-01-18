@@ -54,11 +54,11 @@ exports.postSignin = (req, res, next) => {
     req.login(user, (err) => {
       if (err) { return next(err); }
       console.log(req.user);
-      console.log('Successfully signed up.');
+      console.log('Successfully signed in user: ', req.user);
       //res.json(user);
-      console.log(req.session);
-      console.log(req.session.id);
-      console.log(req.cookie);
+      // console.log(req.session);
+      // console.log(req.session.id);
+      // console.log(req.cookie);
       res.status(200).json(
           {
             success: true,
@@ -74,8 +74,6 @@ exports.postSignin = (req, res, next) => {
  * Log out.
  */
  exports.getAccount1 = (req, res) => {
-console.log("GET USER ID FOR ROOM: "+req.user.id);
-console.log("---------------f-------------------");
 console.log("GET USER FOR ROOM: "+req.user);
 res.json(req.user);
 /*User.find().exec(function(err, user){
@@ -126,7 +124,6 @@ exports.postSignup = (req, res, next) => {
     req.flash('errors', errors);
     return res.redirect('/signUp');
   }*/
-  console.log(req.body);
   var newUser = new User({
     name: req.body.name,
     email: req.body.email,
@@ -145,7 +142,7 @@ exports.postSignup = (req, res, next) => {
     else {
       newUser.save((err, savedUser) => {
         if (err) return res.json(err)
-        console.log("user signed up: "+savedUser);
+        console.log("Successfully signed up user :"+savedUser);
         res.json(savedUser)
       })
     }

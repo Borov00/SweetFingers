@@ -1,6 +1,6 @@
 
 var User = require('../models/User');
-
+var Article = require('../models/Article')
 exports.index = (req, res, next) => {
   res.render("users");
 }
@@ -29,7 +29,10 @@ exports.getUser = (req, res) =>{
 exports.deleteOne = (req, res) =>{
   User.findByIdAndRemove(req.params.id, function(err, user){
     if(err) return console.log(err);
-    res.send(user);
+    Article.deleteMany({author: req.params.id}, function(err, success){
+      if(success) console.log("succesfully deleted all aticles of user: "+req.params.id+", status: "+success);
+      res.send(user);
+    })
   });
 };
 

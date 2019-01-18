@@ -44,8 +44,8 @@ exports.getAllForOne = (req, res, next) => {
 
 
 exports.postArticle = (req, res) => {
-  // if( existedTitle === title) nahuy
-  image = "https://www.rd.com/wp-content/uploads/2017/10/yes-it-s-possible-to-cook-an-egg-without-heat_618240320-oksana-mizina-760x506.jpg"
+
+  image = "https://pioneerwoman.files.wordpress.com/2018/01/how-to-cook-scallops-01.jpg"
   cloudinary.uploader.upload(image, (result) => {
     var obj = {
       author: req.user.id,
@@ -74,6 +74,7 @@ exports.getAllArticles = (req, res, next) => {
     res.json(customers);
   });
 };
+
 exports.getAllArticles2 = (req, res, next) => {
     res.json({success:true});
 };

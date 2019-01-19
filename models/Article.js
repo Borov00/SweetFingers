@@ -8,7 +8,12 @@ const ArticleSchema = new mongoose.Schema(
         ingredients: String,
         category: String,
         feature_img: String,
-        claps: Number,
+        claps: {type: Number, default: 0} ,
+        clapers: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+
+        }],
         author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
@@ -21,14 +26,24 @@ const ArticleSchema = new mongoose.Schema(
                 },
                 text: String
             }
-        ]
+        ],
     }, { timestamps: true }
 );
 
-ArticleSchema.methods.clap = function() {
-  this.claps++
-  return this.save();
+
+
+ArticleSchema.methods.clap = function(user_id) {
+    this.clapers.push(user_id);
+    this.claps++
+    return this.save();
 }
+
+ArticleSchema.methods.unclap = function (user_id){
+    this.clapers.pull(user_id);
+    this.claps.claps--;
+    return this.save();
+}
+
 ArticleSchema.methods.comment = function(c) {
   this.comments.push(c);
   return this.save();

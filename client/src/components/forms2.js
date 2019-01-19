@@ -51,7 +51,6 @@ class Signup extends Component {
     if(!this.props.status) {
       return(
         <form className="Form-size1">
-
               <FormGroup>
               <Glyphicon glyph="glyphicon glyphicon-user" />
               <ControlLabel>NickName</ControlLabel>

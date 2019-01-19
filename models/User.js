@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+
   name: String,
   articles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
 
@@ -57,6 +58,7 @@ userSchema.methods.comparePassword = function comparePassword(candidatePassword,
 /**
  * Helper method for getting user's gravatar.
  */
+
 userSchema.methods.gravatar = function gravatar(size) {
   if (!size) {
     size = 200;

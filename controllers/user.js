@@ -19,9 +19,6 @@ exports.getSignin = (req, res) => {
   });
 };
 
-
-
-
 /**
  * POST /login
  * Sign in using email and password.
@@ -124,6 +121,12 @@ exports.postSignup = (req, res, next) => {
     req.flash('errors', errors);
     return res.redirect('/signUp');
   }*/
+
+  if(req.body.password !== req.body.confirmPassword){
+    console.log("Password don't match")
+    return res.json({msg: 'Password dont match'});
+  }
+
   var newUser = new User({
     name: req.body.name,
     email: req.body.email,
@@ -164,33 +167,31 @@ exports.getAccount = (req, res) => {
  * Update profile information.
  */
 exports.postUpdateProfile = (req, res, next) => {
-  req.assert('email', 'Please enter a valid email address.').isEmail();
-  req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
-
-  const errors = req.validationErrors();
-
-  if (errors) {
-    req.flash('errors', errors);
-    return res.redirect('/account');
-  }
+  // req.assert('email', 'Please enter a valid email address.').isEmail();
+  // req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
+  //
+  // const errors = req.validationErrors();
+  //
+  // if (errors) {
+  //   req.flash('errors', errors);
+  //   return res.redirect('/account');
+  // }
 
   User.findById(req.user.id, (err, user) => {
     if (err) { return next(err); }
     user.email = req.body.email || '';
-    user.profile.name = req.body.name || '';
+    user.name = req.body.name || '';
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
     user.profile.website = req.body.website || '';
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
-          req.flash('errors', { msg: 'The email address you have entered is already associated with an account.' });
-          return res.redirect('/account');
+          res.json({ msg: 'The email address you have entered is already associated with an account.' });
         }
         return next(err);
       }
-      req.flash('success', { msg: 'Profile information has been updated.' });
-      res.redirect('/account');
+      res.json({ msg: 'Profile information has been updated.' });
     });
   });
 };

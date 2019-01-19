@@ -10,6 +10,7 @@ import Room from './components/room';
 import Tools from './components/tittleTools';
 import Tools2 from './components/tittleTools2';
 import About from './components/Add';
+import AddArticle from './components/AddRecipe'
 import UserArticles from './components/usersArticles';
 import {BrowserRouter, Route,Switch} from 'react-router-dom';
 import {Form} from 'react-bootstrap';
@@ -113,6 +114,15 @@ class App extends Component {
           </div>
         )}/>
         <Route path="/about/:id" component={About} />
+        <Route path='/addArticle' render={() => (
+          <div >
+          <Tools/>
+            <Navbars tittle="+ADD"/>
+              <form className="App-customers">
+                <AddArticle status={this.state.loggedIn}/>
+              </form>
+          </div>
+        )}/>
         </Switch>
         </div>
 </BrowserRouter>

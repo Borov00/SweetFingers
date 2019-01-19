@@ -30,22 +30,7 @@ class Customers extends Component {
             <p>{article.title}</p>
             <footer> Category: </footer>
             <cite>{article.category}</cite>
-            <li className="Cust-img"> <a href={room+article._id}> <Image className="Cust-image" href="" src={article.feature_img}  height="5%" width="100%" /></a> </li>
-            <footer> Recipe: </footer>
-            <div className="Cust-text">
-
-              <cite>{article.text}</cite>
-            </div>
-            <footer> Description: </footer>
-            <div className="Cust-text">
-
-              <cite>{article.description}</cite>
-            </div>
-            <footer> Ingredients: </footer>
-            <div className="Cust-text">
-
-              <cite>{article.ingredients}</cite>
-            </div>
+            <li className="Cust-img"> <a href={room+article._id}> <Image className="Cust-image" href="" src={article.feature_img}  height="400px" width="700px" /></a> </li>
 
             </blockquote>
           </li>

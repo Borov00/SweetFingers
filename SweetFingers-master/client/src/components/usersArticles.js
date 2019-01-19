@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './customers.css';
 import { Table,Jumbotron, Button,Nav,Navbar,NavItem,MenuItem,NavDropdown,Image,PageHeader,Glyphicon} from 'react-bootstrap'
-
+import axios from "axios"
 class UserArticles extends Component {
   constructor() {
     super();
@@ -11,12 +11,18 @@ class UserArticles extends Component {
   }
 
   componentDidMount() {
-    fetch('/my_articles/all')
-      .then(res => res.json())
-      .then(articles => this.setState({articles}, () => console.log('Customers fetched...', articles)));
+    axios.get('/my_articles/all').then(response => {
+      if (response.data) {
+        console.log(response.data)
+        this.setState({articles:response.data})
+      } else {
+        console.log("nihuya")
+      }
+    })
   }
 
   render() {
+    var room="/about/";
     return (
       <div >
       <h1> </h1>
@@ -29,8 +35,8 @@ class UserArticles extends Component {
               <p>{article.title}</p>
               <footer> Category: </footer>
               <cite>{article.category}</cite>
-              <li className="Cust-img"> <a href=""> <Image className="Cust-image" href="" src={article.feature_img}  height="5%" width="100%" /></a> </li>
-              
+              <li className="Cust-img"> <a href={room+article._id}> <Image className="Cust-image" href="" src={article.feature_img}  height="5%" width="100%" /></a> </li>
+
               <footer> Recipe: </footer>
               <div className="Cust-text">
 

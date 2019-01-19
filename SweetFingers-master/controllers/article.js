@@ -29,10 +29,86 @@ function saveArticle(obj) {
   })
 };
 
+exports.clapArticle = (req,res, next) => {
+  // body: id_article
+  var user_id = "5c4191f8682f49360c89d52d"; // google
+  var article_id = "5c42cf51af45fa2fbc096335"; // yura-article
+
+  // Article.find({_id: article_id, user_id: { $in: user_id}}, function (err, article){
+  //   console.log(article);
+  //   res.json(article);
+  // })
+
+  Article.findById({_id: article_id, clapers: user_id}).then((article)=> {
+    return article.clap(user_id).then(()=>{
+      return res.json({msg: "Done"})
+    })
+  }).catch(err => {
+    console.log(err); // Error: Not Found
+  });
+
+  // Article.find({_id: article_id}, function (err, article){
+  //     if (err) consol.log(err)
+  //     if(!article) res.json({msg: 'Article not found'})
+  //     console.log(article)
+  //     article.clap(user_id);
+  //     // console.log(err);
+  //     // console.log(article);
+  //     // console.log("ARTICLE BEFORE: "+article);
+  //     // //if (!article) return
+  //     // if (article.length == 0){
+  //     //     console.log("ARTICLE THERE IS NOT: "+article);
+  //     //     article.clap(user_id)
+  //     //     console.log("AFTER CLAPED: "+article);
+  //     //     return article;
+  //     // }
+  // })
+
+
+  // }).then(()=>{
+  //     console.log("ARITCLE AFTER: "+article);
+  //     return res.json({msg: "Done"})
+  // }).catch(err => {
+  //   console.log(err);
+  //   res.json(err);
+  // })
+}
+
+exports.unclapArticle = (req,res, next) => {
+  // body: id_article, comment
+  var user_id = "5c4191f8682f49360c89d52d";
+  var article_id = "5c42cf51af45fa2fbc096335";
+
+  Article.findById(article_id).then((article)=> {
+    return article.unclap(user_id).then(()=>{
+      return res.json({msg: "Done"})
+    })
+  }).catch(err => {
+    console.log(err); // Error: Not Found
+  });
+  // Article.findOne({_id: article_id}, function (err, result) {
+  //   if(err) console.log("CLAP ERROR:"+err);
+  //   if (result.claps.clapers === user_id) res.json(result.unclap(user_id));
+  //   if (result.claps.clapers !== user_id) res.json(result.clap(user_id));
+  // })
+}
+
+exports.getAllForOne = (req, res, next) => {
+  console.log(req.user.id)
+  Article.find({ author:  req.user.id}).
+  populate('articles').
+  exec(function (err, articles) {
+    if (err) return handleError(err);
+    //console.log('The author is %s', article.author);
+    if (articles)console.log("All articles found.");
+    res.json(articles);
+    // prints "The author is Ian Fleming"
+  });
+};
+
 exports.postArticle = (req, res) => {
-  // if( existedTitle === title) nahuy
-  image = "https://www.rd.com/wp-content/uploads/2017/10/yes-it-s-possible-to-cook-an-egg-without-heat_618240320-oksana-mizina-760x506.jpg"
-  cloudinary.uploader.upload(image, (result) => {
+  if(!req.body.url) req.body.url = "https://pp.userapi.com/c846419/v846419223/17ce97/3wlsQtgadAs.jpg";
+  cloudinary.uploader.upload(req.body.url, (result) => {
     var obj = {
       author: req.user.id,
       text: req.body.text,
@@ -60,16 +136,18 @@ exports.getAllArticles = (req, res, next) => {
     res.json(customers);
   });
 };
-exports.getAllArticles2 = (req, res, next) => {
+
+exports.checkSignedInUsers = (req, res, next) => {
     res.json({success:true});
 };
 
 exports.getOneArticle = (req, res, next) => {
-  Article.find().exec(function(err, results){
-    console.log(results);
-    recipes=results;
-    let customers=recipes;
-    res.json(customers);
+  console.log(req.params.article_id);
+  Article.findOne({_id: req.params.article_id}).exec(function(err, article){
+    if (err) res.json(err);
+    if (!article) res.json({msg: 'Article was not found'});
+    if (article) console.log("Article successfully found");
+    res.json(article);
   });
 };
 
@@ -78,7 +156,7 @@ exports.getArticlesByRate = (req, res, next) => {
 }
 
 exports.getArticleByLastDate = (req, res, next) => {
-  Article.find({}).sort([['date', -1]]).exec(function(err, docs) { console.log(docs) });
+  Article.find({}).sort({createdAt: 'desc'}).exec(function(err, docs) { res.json(docs) });
 }
 
 exports.getAll = (req, res, next) => {

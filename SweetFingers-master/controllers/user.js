@@ -1,6 +1,6 @@
 const { promisify } = require('util');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
+//const nodemailer = require('nodemailer');
 const passport = require('passport');
 const User = require('../models/User');
 
@@ -19,24 +19,21 @@ exports.getSignin = (req, res) => {
   });
 };
 
-
-
-
 /**
  * POST /login
  * Sign in using email and password.
  */
 exports.postSignin = (req, res, next) => {
-  req.assert('email', 'Email is not valid').isEmail();
-  req.assert('password', 'Password cannot be blank').notEmpty();
-  req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
-
-  const errors = req.validationErrors();
-  if (errors) {
-    console.log(errors);
-    req.flash('errors', errors);
-    return res.redirect('/login');
-  }
+  // req.assert('email', 'Email is not valid').isEmail();
+  // req.assert('password', 'Password cannot be blank').notEmpty();
+  // req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
+  //
+  // const errors = req.validationErrors();
+  // if (errors) {
+  //   console.log(errors);
+  //   req.flash('errors', errors);
+  //   return res.redirect('/login');
+  // }
 
   passport.authenticate('local', (err, user, info) => {
     if (err) {
@@ -54,11 +51,11 @@ exports.postSignin = (req, res, next) => {
     req.login(user, (err) => {
       if (err) { return next(err); }
       console.log(req.user);
-      console.log('Successfully signed up.');
+      console.log('Successfully signed in user: ', req.user);
       //res.json(user);
-      console.log(req.session);
-      console.log(req.session.id);
-      console.log(req.cookie);
+      // console.log(req.session);
+      // console.log(req.session.id);
+      // console.log(req.cookie);
       res.status(200).json(
           {
             success: true,
@@ -74,8 +71,6 @@ exports.postSignin = (req, res, next) => {
  * Log out.
  */
  exports.getAccount1 = (req, res) => {
-console.log("GET USER ID FOR ROOM: "+req.user.id);
-console.log("---------------f-------------------");
 console.log("GET USER FOR ROOM: "+req.user);
 res.json(req.user);
 /*User.find().exec(function(err, user){
@@ -114,19 +109,22 @@ exports.getSignup = (req, res) => {
  * Create a new local account.
  */
 exports.postSignup = (req, res, next) => {
-  req.assert('email', 'Email is not valid').isEmail();
+  /*req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password must be at least 4 characters long').len(4);
   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
   req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
-
   const errors = req.validationErrors();
-
   if (errors) {
     console.log(errors);
     req.flash('errors', errors);
     return res.redirect('/signUp');
+  }*/
+
+  if(req.body.password !== req.body.confirmPassword){
+    console.log("Password don't match")
+    return res.json({msg: 'Password dont match'});
   }
-  console.log(req.body);
+
   var newUser = new User({
     name: req.body.name,
     email: req.body.email,
@@ -134,18 +132,18 @@ exports.postSignup = (req, res, next) => {
   });
 
   //console.log("user: "+user);
-  User.findOne({ name: newUser.name }, (err, user) => {
+  User.findOne({ email: newUser.email }, (err, user) => {
     if (err) {
       console.log('User.js post error: ', err)
     } else if (user) {
       res.json({
-        error: `Sorry, already a user with the name: ${newUser.name}`
+        error: `Sorry, already a user with the email: ${newUser.email}`
       })
     }
     else {
       newUser.save((err, savedUser) => {
         if (err) return res.json(err)
-        console.log("user signed up: "+savedUser);
+        console.log("Successfully signed up user :"+savedUser);
         res.json(savedUser)
       })
     }
@@ -167,33 +165,31 @@ exports.getAccount = (req, res) => {
  * Update profile information.
  */
 exports.postUpdateProfile = (req, res, next) => {
-  req.assert('email', 'Please enter a valid email address.').isEmail();
-  req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
-
-  const errors = req.validationErrors();
-
-  if (errors) {
-    req.flash('errors', errors);
-    return res.redirect('/account');
-  }
+  // req.assert('email', 'Please enter a valid email address.').isEmail();
+  // req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
+  //
+  // const errors = req.validationErrors();
+  //
+  // if (errors) {
+  //   req.flash('errors', errors);
+  //   return res.redirect('/account');
+  // }
 
   User.findById(req.user.id, (err, user) => {
     if (err) { return next(err); }
     user.email = req.body.email || '';
-    user.profile.name = req.body.name || '';
+    user.name = req.body.name || '';
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
     user.profile.website = req.body.website || '';
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
-          req.flash('errors', { msg: 'The email address you have entered is already associated with an account.' });
-          return res.redirect('/account');
+          res.json({ msg: 'The email address you have entered is already associated with an account.' });
         }
         return next(err);
       }
-      req.flash('success', { msg: 'Profile information has been updated.' });
-      res.redirect('/account');
+      res.json({ msg: 'Profile information has been updated.' });
     });
   });
 };

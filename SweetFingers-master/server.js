@@ -149,13 +149,16 @@ app.use("/",function (req, res, next) {
 app.get('/main',function(req,res,next){
     console.log("res.session.id : "+req.session.user);
     next();
-},   articleController.getAllArticles);
+},   articleController.getArticleByLastDate);
 app.get('/bc_room', passportConfig.isAuthenticated, userController.getAccount1);
-app.get('/main2', passportConfig.isAuthenticated, articleController.getAllArticles2);
-app.get('/article', articleController.getOneArticle);
+app.put('/bc_room/edit/profile', passportConfig.isAuthenticated, userController.postUpdateProfile);
+app.get('/main2', passportConfig.isAuthenticated, articleController.checkSignedInUsers); // проверка на залогиненность
+
+app.post('/article/:article_id', articleController.getOneArticle);
 app.get('/article/by/date', articleController.getArticleByLastDate);
-app.get('/my_articles', passportConfig.isAuthenticated, articleController.index);
-app.post('/my_articles', passportConfig.isAuthenticated, articleController.postArticle);
+app.get('/article/clap', articleController.clapArticle);
+app.get('/article/unclap', articleController.unclapArticle);
+
 app.get('/signIn', userController.getSignin);
 app.post('/signIn', userController.postSignin);
 app.get('/signUp', userController.getSignup);
@@ -166,8 +169,8 @@ app.get('/manage', passportConfig.isAuthenticated, manageController.index);
 
 app.get('/my_articles', passportConfig.isAuthenticated, articleController.index);
 app.post('/my_articles', passportConfig.isAuthenticated, articleController.postArticle);
-app.get('/my_articles/all', passportConfig.isAuthenticated, articleController.getAll);
-
+app.get('/my_articles/all', passportConfig.isAuthenticated, articleController.getAllForOne);
+app.post('/account/profile', passportConfig.isAuthenticated, userController.postUpdateProfile);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount)
 
 //app.post('/login', passportConfig.isAuthorized, articleController.postLogin);

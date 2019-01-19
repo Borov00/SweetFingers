@@ -47,9 +47,9 @@ class Tools extends Component {
     <ul className="nav">
       <li><a href="/room"><Glyphicon glyph="glyphicon glyphicon-user"/>My room</a></li>
       <li><a href="/myArticles"><Glyphicon glyph="glyphicon glyphicon-cutlery"/>My recipes</a></li>
-      <li><a href="#"><Glyphicon glyph="glyphicon glyphicon-plus"/>Add recipe</a></li>
-      <li><a href="http://localhost:5000/logout"><Glyphicon glyph="glyphicon glyphicon-log-out"/>Log-Out</a></li>
+      <li><a href="/addArticle"><Glyphicon glyph="glyphicon glyphicon-plus"/>Add recipe</a></li>
       {this.functionq()}
+      <li><a href="http://localhost:5000/logout"><Glyphicon glyph="glyphicon glyphicon-log-out"/>Log-Out</a></li>
     </ul>
 
   </div>

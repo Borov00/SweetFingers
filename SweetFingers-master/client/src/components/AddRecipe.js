@@ -14,27 +14,43 @@ class LoginForm extends Component {
       url: "",
       category: "",
       redirect: false,
-      success: true
+      success: true ,
+
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.functionq=this.functionq.bind(this)
   }
 
+
   handleChange(event) {
 
     this.setState({
       [event.target.name]: event.target.value
     })
+
   }
+  getValidationStateTitle() {
+   var lengthTitle = this.state.title.length;
+   if (lengthTitle > 1) {
+     return 'success';
+   } else if (lengthTitle >0){
+     return 'error';
+   }
+ }
+ getValidationStateText() {
+  var lengthText = this.state.text.length;
+  if (lengthText > 1) {
+    return 'success';
+  } else if (lengthText >0){
+    return 'error';
+  }
+}
 
   handleSubmit(event) {
     event.preventDefault();
       console.log('handleSubmit')
         this.setState({redirect: true})
-        if(this.state.title.length==0) {
-          this.setState({success: false})
-        }
         if(this.state.success) {
           axios
               .post('/my_articles', {
@@ -56,15 +72,18 @@ class LoginForm extends Component {
 
           })
         }
-        console.log(this.state)
+
   }
   functionq(){
       if(!this.state.redirect) {
         return (
           <form className="Form-size1">
-              <FormGroup>
+              <FormGroup
+                controlId="formBasicText"
+                validationState={this.getValidationStateTitle()}
+              >
               <Glyphicon glyph="glyphicon glyphicon-bookmark" />
-              <ControlLabel>  Title </ControlLabel>
+              <ControlLabel>  Title <Glyphicon glyph="glyphicon glyphicon-asterisk" /> </ControlLabel>
                 <FormControl
                        type="text"
                        id="title"
@@ -72,9 +91,13 @@ class LoginForm extends Component {
                        placeholder="Title"
                        value={this.state.title}
                        onChange={this.handleChange}
+                       required
                 />
+
               </FormGroup>
-              <FormGroup>
+              <FormGroup
+
+              >
               <Glyphicon glyph="glyphicon glyphicon-th-list" />
               <ControlLabel>  Category </ControlLabel>
                 <FormControl
@@ -86,10 +109,15 @@ class LoginForm extends Component {
                        onChange={this.handleChange}
                 />
               </FormGroup>
-              <FormGroup>
+              <FormGroup
+
+              >
               <Glyphicon glyph="glyphicon glyphicon-text-width" />
-              <ControlLabel>Text</ControlLabel>
-              <FormGroup controlId="formControlsTextarea">
+              <ControlLabel>ext<Glyphicon glyph="glyphicon glyphicon-asterisk" /></ControlLabel>
+              <FormGroup controlId="formControlsTextarea"
+                controlId="formBasicText"
+                validationState={this.getValidationStateText()}
+              >
                 <FormControl
                   name="text"
                   componentClass="textarea"

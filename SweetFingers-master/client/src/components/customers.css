@@ -63,9 +63,9 @@ font-size: 50px;
 letter-spacing: .05em;
 line-height: 1.4;
 }
-blockquote footer {
+.Use-text {
   color: black;
-  font-size:35px;
+  font-size:25px;
   letter-spacing: .05em;
   line-height: 1.4;
 }

@@ -37,22 +37,6 @@ class UserArticles extends Component {
               <cite>{article.category}</cite>
               <li className="Cust-img"> <a href={room+article._id}> <Image className="Cust-image" href="" src={article.feature_img}  height="5%" width="100%" /></a> </li>
 
-              <footer> Recipe: </footer>
-              <div className="Cust-text">
-
-                <cite>{article.text}</cite>
-              </div>
-              <footer> Description: </footer>
-              <div className="Cust-text">
-
-                <cite>{article.description}</cite>
-              </div>
-              <footer> Ingredients: </footer>
-              <div className="Cust-text">
-
-                <cite>{article.ingredients}</cite>
-              </div>
-
               </blockquote>
             </li>
 

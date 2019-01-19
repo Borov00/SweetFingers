@@ -154,7 +154,7 @@ app.get('/bc_room', passportConfig.isAuthenticated, userController.getAccount1);
 app.put('/bc_room/edit/profile', passportConfig.isAuthenticated, userController.postUpdateProfile);
 app.get('/main2', passportConfig.isAuthenticated, articleController.checkSignedInUsers); // проверка на залогиненность
 
-app.post('/article/:article_id', articleController.getOneArticle);
+app.get('/article/:article_id', articleController.getOneArticle);
 app.get('/article/by/date', articleController.getArticleByLastDate);
 app.get('/article/clap', articleController.clapArticle);
 app.get('/article/unclap', articleController.unclapArticle);
@@ -166,6 +166,8 @@ app.post('/signUp', userController.postSignup);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
 app.get('/logout', userController.logout);
 app.get('/manage', passportConfig.isAuthenticated, manageController.index);
+
+
 
 app.get('/my_articles', passportConfig.isAuthenticated, articleController.index);
 app.post('/my_articles', passportConfig.isAuthenticated, articleController.postArticle);

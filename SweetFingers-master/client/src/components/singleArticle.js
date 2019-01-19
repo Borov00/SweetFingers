@@ -30,21 +30,21 @@ class Articles extends Component {
             <li className="Cust-li" >
               <blockquote>
               <p>{this.state.article.title}</p>
-              <footer> Category: </footer>
+              <p className="Use-text"> Category: </p>
               <cite>{this.state.article.category}</cite>
               <div className="Cust-img"> <a href=""> <Image className="Cust-image" href="" src={this.state.article.feature_img}  height="5%" width="100%" /></a> </div>
 
-              <footer> Recipe: </footer>
+              <p className="Use-text"> Recipe: </p>
               <div className="Cust-text">
 
                 <cite>{this.state.article.text}</cite>
               </div>
-              <footer> Description: </footer>
+              <p className="Use-text"> Description: </p>
               <div className="Cust-text">
 
                 <cite>{this.state.article.description}</cite>
               </div>
-              <footer> Ingredients: </footer>
+              <p className="Use-text"> Ingredients: </p>
               <div className="Cust-text">
 
                 <cite>{this.state.article.ingredients}</cite>

@@ -177,11 +177,18 @@ exports.postUpdateProfile = (req, res, next) => {
 
   User.findById(req.user.id, (err, user) => {
     if (err) { return next(err); }
-    user.email = req.body.email || '';
+    if (!req.body.name) {
+      user.email = req.body.email || '';
+    } else {
+      user.name = req.body.name || '';
+      user.email=req.body.email || '';
+    }
+    if (!req.body.email) {
+      user.name=req.body.name || '';
+    } else {
     user.name = req.body.name || '';
-    user.profile.gender = req.body.gender || '';
-    user.profile.location = req.body.location || '';
-    user.profile.website = req.body.website || '';
+    user.email=req.body.email || '';
+    }
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {

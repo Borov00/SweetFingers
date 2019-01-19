@@ -11,17 +11,50 @@ class Room extends Component {
     super();
       this.state = {
         user: [],
-
+        name: "",
+        email: "",
       }
+      this.handleSubmit = this.handleSubmit.bind(this)
+      this.handleChangeName = this.handleChangeName.bind(this)
+      this.handleChangeEmail = this.handleChangeEmail.bind(this)
     }
     componentDidMount() {
       axios.get('/bc_room').then(response => {
 
         if (response.data) {
-          this.setState({user: response.data})
+          this.setState({user: response.data,name: response.data.name, email:response.data.email})
         } else {
           console.log("nihuya")
         }
+      })
+    }
+
+    handleChangeName(event) {
+      this.setState({
+        name: event.target.value
+      })
+    }
+    handleChangeEmail(event) {
+      this.setState({
+        email: event.target.value
+      })
+    }
+
+    handleSubmit(event) {
+      axios
+          .post('/account/profile', {
+            name: this.state.name,
+            email: this.state.email
+          })
+          .then(response => {
+            console.log('login response: ')
+            console.log(response)
+            if (response) {
+            }
+          }).catch(error => {
+        console.log('login error: ')
+        console.log(error);
+
       })
     }
 functionq(){
@@ -32,10 +65,13 @@ functionq(){
           <h3>{this.state.user.name} </h3>
           <FormGroup className="Room-forms">
             <Glyphicon glyph="glyphicon glyphicon-user" />
-            <ControlLabel>Your Name</ControlLabel>
+            <ControlLabel>Your NickName</ControlLabel>
             <FormControl
+              id="name"
+              name="name"
               type="text"
               defaultValue={this.state.user.name}
+              onChange={this.handleChangeName}
               required
             />
 
@@ -44,9 +80,11 @@ functionq(){
             <Glyphicon glyph="glyphicon glyphicon-envelope" />
             <ControlLabel>Your Email</ControlLabel>
             <FormControl
+              id="email"
+              name="email"
               type="email"
+              onChange={this.handleChangeEmail}
               defaultValue={this.state.user.email}
-
             />
           </FormGroup>
           <FormGroup className="Room-forms">
@@ -57,7 +95,10 @@ functionq(){
               type="text"
               value={this.state.user.status}
             />
-            <Button  className="Form-btn-2">edit<Glyphicon glyph="glyphicon glyphicon-pencil" /></Button >
+            <Button href="/room" className="Form-btn-2" onClick={this.handleSubmit}>
+              edit
+              <Glyphicon glyph="glyphicon glyphicon-pencil" />
+            </Button >
           </FormGroup>
           </form>
 

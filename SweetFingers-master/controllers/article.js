@@ -97,10 +97,12 @@ exports.getAllForOne = (req, res, next) => {
   console.log(req.user.id)
   Article.find({ author:  req.user.id}).
   populate('articles').
+  sort({createdAt: 'desc'}).
   exec(function (err, articles) {
     if (err) return handleError(err);
     //console.log('The author is %s', article.author);
     if (articles)console.log("All articles found.");
+
     res.json(articles);
     // prints "The author is Ian Fleming"
   });
@@ -142,7 +144,7 @@ exports.checkSignedInUsers = (req, res, next) => {
 };
 
 exports.getOneArticle = (req, res, next) => {
-  console.log(req.params.article_id);
+  console.log("dasdfasdfasdfa"+req.params.article_id);
   Article.findOne({_id: req.params.article_id}).exec(function(err, article){
     if (err) res.json(err);
     if (!article) res.json({msg: 'Article was not found'});

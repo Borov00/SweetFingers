@@ -187,7 +187,7 @@ exports.isAuthenticated = (req, res, next) => {
     console.log(req.user + "isAuthenticated!!!");
     return next();
   }
-  console.log("Not authenticated: res.redirect('/room');" + req.user);
+  res.json({msg: "Not Authorized"});
 };
 
 /**

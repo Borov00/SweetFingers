@@ -9,6 +9,7 @@ const ArticleSchema = new mongoose.Schema(
         category: String,
         feature_img: String,
         claps: Number,
+        author_name: String,
         author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'

@@ -129,22 +129,27 @@ exports.getAllForOne = (req, res, next) => {
 exports.postArticle = (req, res) => {
   if(!req.body.url) req.body.url = "https://www.takebackyourtemple.com/wp-content/uploads/2017/09/DepositphotosAddiction-Mindset-v2.jpg";
   cloudinary.uploader.upload(req.body.url, (result) => {
-    var obj = {
-      author: req.user.id,
-      text: req.body.text,
-      title: req.body.title,
-      description: req.body.description,
-      ingredients: req.body.ingredients,
-      category: req.body.category,
-      feature_img: result.url != null ? result.url : ''
-    }
-    saveArticle(obj);
-  },{
-    resource_type: 'image',
-    eager: [
-      {effect: 'sepia'}
-    ]
-  })
+    User.findOne({_id: req.user.id}, function(err, user){
+      var obj = {
+        author_name: user.name,
+        author: req.user.id,
+        text: req.body.text,
+        title: req.body.title,
+        description: req.body.description,
+        ingredients: req.body.ingredients,
+        category: req.body.category,
+        feature_img: result.url != null ? result.url : ''
+      }
+      saveArticle(obj);
+    },{
+      resource_type: 'image',
+      eager: [
+        {effect: 'sepia'}
+      ]
+    })
+
+    })
+
 }
 
 
@@ -170,6 +175,28 @@ exports.getOneArticle = (req, res, next) => {
     res.json(article);
   });
 };
+exports.editArticle = (req,res, next) => {
+var article_id = req.params.article_id;
+let { text, title, category, ingredients, description, url } = req.body;
+Article.findOne({_id: article_id}, function(err, article){
+User.findOne({_id: req.user.id}, function(err, user){
+if(err) console.log(err);
+if (user.status == "admin" || article.author == req.user.id){
+article.text= text;
+article.title= title;
+article.category= category;
+article.ingredients= ingredients;
+article.description= description;
+article.feature_img= url;
+article.save();
+
+res.json({msg: "Successfully edited"});
+}else{
+res.json({msg: "You don't have permission"});
+}
+})
+});
+}
 
 exports.getArticlesByRate = (req, res, next) => {
   Article.find({rate})

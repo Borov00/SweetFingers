@@ -82,16 +82,18 @@ class LoginForm extends Component {
             <FormGroup>
             <a href="http://localhost:5000/auth/facebook">
               <Image
-                  src="http://www.delgosea.eu/var/ezwebin_site/storage/images/media/images/fb-icon/7363-1-eng-GB/fb-icon.jpg"
-                  circle width="10%"
-                  heignt="10%"
+                className="Form-logo"
+                src="https://static.web2ua.com/kyiv/2017/05/30/amerikanskie_sportsmeny_podderzhali_ukrai-3.png"
+                circle width="13%"
+                heignt="13%"
               />
             </a>
             <a href="http://localhost:5000/auth/google">
               <Image
+                  className="Form-logo"
                   src="https://yt3.ggpht.com/a-/AN66SAwKgKC5at8ZPnDOpe2iTpPw73EIKyNf1IPTEg=s900-mo-c-c0xffffffff-rj-k-no"
-                  circle width="10%"
-                  hieght="10%"
+                  circle width="13%"
+                  hieght="13%"
               />
             </a>
           </FormGroup>

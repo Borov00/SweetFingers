@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import './customers.css';
-import { Table,Jumbotron, Button,Nav,Navbar,NavItem,MenuItem,NavDropdown,Image,PageHeader,Glyphicon} from 'react-bootstrap'
+import { Table,Jumbotron, Button,Nav,Navbar,NavItem,MenuItem,NavDropdown,Image,PageHeader,Glyphicon,FormGroup} from 'react-bootstrap'
 import axios from "axios"
 class Articles extends Component {
   constructor() {
     super();
     this.state = {
       id: "/article/",
+      id2: "/edit/",
       article: [],
       id_article: "",
       redirect: false,
       msg: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount() {
     axios.get(this.state.id+this.props.id).then(response => {
       if (response.data) {
-        console.log(this.props.id)
+        console.log(response.data)
         this.setState({article:response.data})
       } else {
         console.log("nihuya")
@@ -43,7 +45,10 @@ class Articles extends Component {
 
       })
     }
-  render() {
+  render()
+
+  {
+
     if(!this.state.redirect) {
     return (
 
@@ -71,10 +76,17 @@ class Articles extends Component {
 
                 <cite>{this.state.article.ingredients}</cite>
               </div>
-              <Button className="Form-btn-1" onClick={this.handleSubmit}>
-                Del
-                <Glyphicon glyph="glyphicon glyphicon-trash" />
-              </Button >
+              <FormGroup>
+               <Button className="Form-btn-delete" onClick={this.handleSubmit}>
+                  Del
+                  <Glyphicon glyph="glyphicon glyphicon-trash" />
+                </Button >
+                <Button className="Form-btn-edit" href={this.state.id2+this.props.id}>
+                   Edit
+                   <Glyphicon glyph="glyphicon glyphicon-trash" />
+                 </Button >
+              </FormGroup>
+
               </blockquote>
             </li>
 

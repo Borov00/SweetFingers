@@ -9,7 +9,8 @@ import Forms1 from './components/forms2';
 import Room from './components/room';
 import Tools from './components/tittleTools';
 import Tools2 from './components/tittleTools2';
-import About from './components/Add';
+import Add from './components/Add';
+import Transfer from './components/Transfer';
 import AddArticle from './components/AddRecipe'
 import UserArticles from './components/usersArticles';
 import {BrowserRouter, Route,Switch} from 'react-router-dom';
@@ -113,7 +114,8 @@ class App extends Component {
               </form>
           </div>
         )}/>
-        <Route path="/about/:id" component={About} />
+        <Route path="/single/:id" component={Add} />
+        <Route path="/edit/:id" component={Transfer} />
         <Route path='/addArticle' render={() => (
           <div >
           <Tools/>

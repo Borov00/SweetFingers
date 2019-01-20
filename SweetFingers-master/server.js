@@ -165,6 +165,7 @@ app.get('/signUp', userController.getSignup);
 app.post('/signUp', userController.postSignup);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
 app.post('/account/delete', passportConfig.isAuthenticated, articleController.deleteOneArticle);
+app.post('/account/edit/:article_id', passportConfig.isAuthenticated,articleController.editArticle );
 app.get('/logout', userController.logout);
 app.get('/manage', passportConfig.isAuthenticated, manageController.index);
 

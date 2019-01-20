@@ -22,7 +22,7 @@ class UserArticles extends Component {
   }
 
   render() {
-    var room="/about/";
+    var room="/single/";
     return (
       <div >
       <h1> </h1>

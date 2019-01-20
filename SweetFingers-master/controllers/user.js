@@ -137,7 +137,7 @@ exports.postSignup = (req, res, next) => {
       console.log('User.js post error: ', err)
     } else if (user) {
       res.json({
-        error: `Sorry, already a user with the email: ${newUser.email}`
+        msg: `Sorry, already a user with the email: ${newUser.email}`
       })
     }
     else {

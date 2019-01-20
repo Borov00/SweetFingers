@@ -10,7 +10,8 @@ class Signup extends Component {
       password: '',
       confirmPassword: '',
       name: '',
-      statusReg: false
+      statusReg: false,
+      msg: ""
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -21,6 +22,7 @@ class Signup extends Component {
     })
   }
   handleSubmit(event) {
+    event.preventDefault()
     //request to server to add a new email/password
     axios
         .post('/signUp', {
@@ -37,7 +39,8 @@ class Signup extends Component {
 
             // update the state to redirect to home
             this.setState({
-              statusReg: true
+              statusReg: true,
+              msg: response.data.msg
             })
             console.log("status reg:"+this.state.statusReg)
           }
@@ -46,7 +49,7 @@ class Signup extends Component {
       console.log(error);
 
     })
-  }
+    }
   functionq(){
     if(!this.props.status) {
       return(
@@ -94,6 +97,7 @@ class Signup extends Component {
 
                      onChange={this.handleChange}
               />
+              <label className="RED">{this.state.msg}</label>
               </FormGroup>
           <div className="form-group ">
             <div className="col-7"></div>

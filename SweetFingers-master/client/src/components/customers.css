@@ -23,9 +23,12 @@
   list-style:none;
   width: 100%;
   margin:auto;
-
-
 }
+.Edit-textarea {
+  width: 100%;
+}
+
+
 blockquote {
 margin: 0;
 background: #FAF0E6;
@@ -123,6 +126,13 @@ font-weight: 300;
   width: 50%;
   text-align: center;
 }
+.Form-size2 {
+  margin-left: 15%;
+  margin-right: 15%;
+  align-items: center;
+  width: 70%;
+  text-align: center;
+}
 
 .Form-btn {
   color:#111;
@@ -148,6 +158,9 @@ font-weight: 300;
   border: 1px solid red;
 
 }
+.Form-logo {
+  padding: 5px;
+}
 .Form-text-red {
   color: red;
 }
@@ -171,6 +184,50 @@ font-weight: 300;
   background-position: 0 0;
   color:#111;
 }
+.Form-btn-delete {
+  color:#111;
+  background-color: #FAF0E6;
+  padding: 10px 10px;
+  width:100px;
+  text-decoration:none;
+  text-align:center;
+  margin:15px auto;
+  display: block;
+  background-image: linear-gradient(to left,transparent,transparent 50%,#E9967A 50%,#E9967A);
+  background-position: 100% 0;
+  background-size: 200% 100%;
+  transition: all .25s ease-in;
+  border: 1px solid #111;
+  font-size: 25px;
+}
+.Form-btn-delete:hover {
+  background-position: 0 0;
+  color:#111;
+}
+.RED {
+  color:red;
+}
+.Form-btn-edit {
+  color:#111;
+  background-color: #FAF0E6;
+  padding: 10px 10px;
+  width:100px;
+  text-decoration:none;
+  text-align:center;
+  margin:15px auto;
+  display: block;
+  background-image: linear-gradient(to left,transparent,transparent 50%,#98FB98 50%,#98FB98);
+  background-position: 100% 0;
+  background-size: 200% 100%;
+  transition: all .25s ease-in;
+  border: 1px solid #111;
+  font-size: 25px;
+}
+.Form-btn-edit:hover {
+  background-position: 0 0;
+  color:#111;
+}
+
 .Form-btn-2 {
   color:#111;
   background-color: #FAF0E6;

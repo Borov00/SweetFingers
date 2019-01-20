@@ -92,6 +92,24 @@ exports.unclapArticle = (req,res, next) => {
   //   if (result.claps.clapers !== user_id) res.json(result.clap(user_id));
   // })
 }
+exports.deleteOneArticle = (req, res, next) => {
+console.log("ARTICLE_ID: " + req.body.id);
+console.log("USER ID: " + req.user.id);
+
+Article.findOne({_id: req.body.id}, function (err, article) {
+if(err) res.json(err);
+if (!article) res.json({msg: "No article"});
+console.log("AUTHOR: "+article.author+" USER: "+req.user.id);
+if (article.author == req.user.id || req.user.status==="admin" ) {
+Article.deleteOne({_id: article.id}, function (err, result) {
+if (err) return err;
+if (!result) res.json({msg: "Didn't delete"});
+if (result) res.json({msg: "Recipe Deleted"});
+});
+} else
+res.json({msg: "You don't have permissions"});
+})
+}
 
 exports.getAllForOne = (req, res, next) => {
   console.log(req.user.id)
@@ -109,7 +127,7 @@ exports.getAllForOne = (req, res, next) => {
 };
 
 exports.postArticle = (req, res) => {
-  if(!req.body.url) req.body.url = "https://pp.userapi.com/c846419/v846419223/17ce97/3wlsQtgadAs.jpg";
+  if(!req.body.url) req.body.url = "https://www.takebackyourtemple.com/wp-content/uploads/2017/09/DepositphotosAddiction-Mindset-v2.jpg";
   cloudinary.uploader.upload(req.body.url, (result) => {
     var obj = {
       author: req.user.id,

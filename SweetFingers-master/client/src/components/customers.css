@@ -151,6 +151,26 @@ font-weight: 300;
 .Form-text-red {
   color: red;
 }
+.Form-btn-1 {
+  color:#111;
+  background-color: #FAF0E6;
+  padding: 10px 10px;
+  width:100px;
+  text-decoration:none;
+  text-align:center;
+  margin:15px auto;
+  display: block;
+  background-image: linear-gradient(to left,transparent,transparent 50%,#98FB98 50%,#98FB98);
+  background-position: 100% 0;
+  background-size: 200% 100%;
+  transition: all .25s ease-in;
+  border: 1px solid #111;
+  font-size: 25px;
+}
+.Form-btn-1:hover {
+  background-position: 0 0;
+  color:#111;
+}
 .Form-btn-2 {
   color:#111;
   background-color: #FAF0E6;

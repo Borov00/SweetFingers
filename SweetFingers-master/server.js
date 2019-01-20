@@ -164,6 +164,7 @@ app.post('/signIn', userController.postSignin);
 app.get('/signUp', userController.getSignup);
 app.post('/signUp', userController.postSignup);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
+app.post('/account/delete', passportConfig.isAuthenticated, articleController.deleteOneArticle);
 app.get('/logout', userController.logout);
 app.get('/manage', passportConfig.isAuthenticated, manageController.index);
 
@@ -195,12 +196,12 @@ app.put("/api/set/user/", passportConfig.isAuthenticated, manageController.setUs
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: 'http://localhost:3000/' }), (req, res) => {
     console.log("google/callback");
-    res.redirect('http://localhost:3000/');
+    res.redirect('http://localhost:3000/room');
 });
 app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'http://localhost:3000/' }), (req, res) => {
     console.log("google/callback");
-    res.redirect('http://localhost:3000/');
+    res.redirect('http://localhost:3000/room');
 });
 
 

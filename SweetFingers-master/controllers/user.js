@@ -186,8 +186,8 @@ exports.postUpdateProfile = (req, res, next) => {
     if (!req.body.email) {
       user.name=req.body.name || '';
     } else {
-    user.name = req.body.name || '';
-    user.email=req.body.email || '';
+      user.name = req.body.name || '';
+      user.email=req.body.email || '';
     }
     user.save((err) => {
       if (err) {

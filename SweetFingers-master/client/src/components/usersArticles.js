@@ -33,7 +33,7 @@ class UserArticles extends Component {
             <li className="Cust-li">
               <blockquote>
               <p>{article.title}</p>
-              <footer> Category: </footer>
+              <p className="Use-text"> Category: </p>
               <cite>{article.category}</cite>
               <li className="Cust-img"> <a href={room+article._id}> <Image className="Cust-image" href="" src={article.feature_img}  height="5%" width="100%" /></a> </li>
 

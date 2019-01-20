@@ -15,11 +15,13 @@ class LoginForm extends Component {
       category: "",
       redirect: false,
       success: true ,
+      className: ""
 
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.functionq=this.functionq.bind(this)
+
   }
 
 
@@ -47,11 +49,14 @@ class LoginForm extends Component {
   }
 }
 
+
   handleSubmit(event) {
     event.preventDefault();
       console.log('handleSubmit')
-        this.setState({redirect: true})
-        if(this.state.success) {
+
+        if(this.getValidationStateText()==="success" && this.getValidationStateTitle()==="success") {
+          this.setState({redirect: true})
+
           axios
               .post('/my_articles', {
                 title: this.state.title,
@@ -71,7 +76,11 @@ class LoginForm extends Component {
             console.log(error);
 
           })
+
+        } else {
+          this.setState({className: "Form-red"})
         }
+console.log(this.state)
 
   }
   functionq(){
@@ -86,11 +95,12 @@ class LoginForm extends Component {
               <ControlLabel>  Title <Glyphicon glyph="glyphicon glyphicon-asterisk" /> </ControlLabel>
                 <FormControl
                        type="text"
-                       id="title"
+
                        name="title"
                        placeholder="Title"
                        value={this.state.title}
                        onChange={this.handleChange}
+                       className={this.state.className}
                        required
                 />
 
@@ -122,6 +132,7 @@ class LoginForm extends Component {
                   name="text"
                   componentClass="textarea"
                   placeholder="Text"
+                  className={this.state.className}
                   onChange={this.handleChange}/>
               </FormGroup>
               <Glyphicon glyph="glyphicon glyphicon-pencil" />
@@ -173,7 +184,7 @@ class LoginForm extends Component {
       } else {
         return(
           <form>
-            <div className="Add-notif"><a href='/myArticles'><Glyphicon glyph="glyphicon glyphicon-ok" /> Recipe added</a></div>
+            <div className="Add-notif"><a href='/room'><Glyphicon glyph="glyphicon glyphicon-ok" /> Recipe added</a></div>
           </form>
         )
       }

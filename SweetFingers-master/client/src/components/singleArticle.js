@@ -7,26 +7,48 @@ class Articles extends Component {
     super();
     this.state = {
       id: "/article/",
-      article: []
+      article: [],
+      id_article: "",
+      redirect: false,
+      msg: ""
     };
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
-
   componentDidMount() {
     axios.get(this.state.id+this.props.id).then(response => {
       if (response.data) {
-        console.log(response.data)
+        console.log(this.props.id)
         this.setState({article:response.data})
       } else {
         console.log("nihuya")
       }
     })
   }
-  render() {
 
+    handleSubmit(event) {
+
+      axios
+          .post('/account/delete', {
+            id:this.props.id,
+          })
+          .then(response => {
+            console.log('login response: ')
+            console.log(response)
+            if (response) {
+              this.setState({redirect:true,msg: response.data.msg})
+            }
+          }).catch(error => {
+        console.log('login error: ')
+        console.log(error);
+
+      })
+    }
+  render() {
+    if(!this.state.redirect) {
     return (
 
       <ul className="asdf">
-          <li className="sad" key={this.state.article._id}>
+          <li className="sad" key={this.state.article._id} id="li">
             <li className="Cust-li" >
               <blockquote>
               <p>{this.state.article.title}</p>
@@ -49,7 +71,10 @@ class Articles extends Component {
 
                 <cite>{this.state.article.ingredients}</cite>
               </div>
-
+              <Button className="Form-btn-1" onClick={this.handleSubmit}>
+                Del
+                <Glyphicon glyph="glyphicon glyphicon-trash" />
+              </Button >
               </blockquote>
             </li>
 
@@ -59,6 +84,13 @@ class Articles extends Component {
 
 
     );
+  } else if(this.state.redirect){
+    return(
+      <form>
+        <div className="Add-notif"><a href='/'><Glyphicon glyph="glyphicon glyphicon-ok" />{this.state.msg}</a></div>
+      </form>
+    )
+  }
   }
 }
 

@@ -10,6 +10,8 @@ class LoginForm extends Component {
       email: '',
       password: '',
       href: "",
+      msg: "",
+      success: false
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -23,6 +25,7 @@ class LoginForm extends Component {
   }
 
   handleSubmit(event) {
+      event.preventDefault();
       console.log('handleSubmit')
 
     axios
@@ -34,15 +37,20 @@ class LoginForm extends Component {
           console.log('login response: ')
           console.log(response)
           if (response) {
+            this.setState({
+              success: response.data.success,
+              msg: response.data.msg
+            })
           }
         }).catch(error => {
       console.log('login error: ')
       console.log(error);
 
     })
+    console.log(this.state)
   }
   functionq(){
-      if(!this.props.status) {
+      if(!this.state.success) {
         return (
           <form className="Form-size1">
               <FormGroup>
@@ -68,6 +76,7 @@ class LoginForm extends Component {
                        value={this.state.password}
                        onChange={this.handleChange}
                 />
+                <h5 className="RED">{this.state.msg}</h5>
                 <Button
 
                     className="Form-btn"

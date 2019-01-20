@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './customers.css';
 import { Table,Jumbotron, Button,Nav,Navbar,NavItem,MenuItem,NavDropdown,Image,PageHeader,Glyphicon,FormGroup} from 'react-bootstrap'
 import axios from "axios"
+const ReactMarkdown = require('react-markdown');
 class Articles extends Component {
   constructor() {
     super();
@@ -64,17 +65,17 @@ class Articles extends Component {
               <p className="Use-text"> Recipe: </p>
               <div className="Cust-text">
 
-                <cite>{this.state.article.text}</cite>
+                <cite><ReactMarkdown source={this.state.article.text}/></cite>
               </div>
               <p className="Use-text"> Description: </p>
               <div className="Cust-text">
 
-                <cite>{this.state.article.description}</cite>
+                <cite><ReactMarkdown source={this.state.article.description}/></cite>
               </div>
               <p className="Use-text"> Ingredients: </p>
               <div className="Cust-text">
 
-                <cite>{this.state.article.ingredients}</cite>
+                <cite><ReactMarkdown source={this.state.article.ingredients}/></cite>
               </div>
               <FormGroup>
                <Button className="Form-btn-delete" onClick={this.handleSubmit}>

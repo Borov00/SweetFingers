@@ -42,11 +42,11 @@ exports.postSignin = (req, res, next) => {
     }
     if (!user) {
       console.log('User not found');
-      return res.status(404).json({msg: 'User not found'});
+      return res.json({msg: 'User not found'});
     }
-    if(user.block === true){
+    if(user.block == true){
       console.log('User is blocked');
-      res.status(403).json({msg: 'User is blocked'});
+      res.json({msg: 'User is blocked'});
     }
     req.login(user, (err) => {
       if (err) { return next(err); }
@@ -56,12 +56,12 @@ exports.postSignin = (req, res, next) => {
       // console.log(req.session);
       // console.log(req.session.id);
       // console.log(req.cookie);
-      res.status(200).json(
+      res.json(
           {
             success: true,
             msg: 'Success! You are logged in.'
           });
-      res.redirect(req.session.returnTo || 'http://localhost:3000/');
+
     });
   })(req, res, next);
 };
@@ -123,6 +123,12 @@ exports.postSignup = (req, res, next) => {
   if(req.body.password !== req.body.confirmPassword){
     console.log("Password don't match")
     return res.json({msg: 'Password dont match'});
+  } else if(!req.body.password || !req.body.confirmPassword){
+    res.json({msg: "Password didn't write"})
+  }
+
+  if(!req.body.email) {
+    res.json({msg: "Password didn't write"})
   }
 
   var newUser = new User({
@@ -144,7 +150,7 @@ exports.postSignup = (req, res, next) => {
       newUser.save((err, savedUser) => {
         if (err) return res.json(err)
         console.log("Successfully signed up user :"+savedUser);
-        res.json(savedUser)
+        res.json({success: true})
       })
     }
   })
@@ -177,13 +183,16 @@ exports.postUpdateProfile = (req, res, next) => {
 
   User.findById(req.user.id, (err, user) => {
     if (err) { return next(err); }
-    if (!req.body.name) {
+    if (req.body.name.length==0) {
       user.email = req.body.email || '';
+
     } else {
       user.name = req.body.name || '';
       user.email=req.body.email || '';
     }
-    if (!req.body.email) {
+
+
+    if (req.body.email.length==0) {
       user.name=req.body.name || '';
     } else {
       user.name = req.body.name || '';

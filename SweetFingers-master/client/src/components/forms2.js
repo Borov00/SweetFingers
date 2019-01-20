@@ -11,7 +11,8 @@ class Signup extends Component {
       confirmPassword: '',
       name: '',
       statusReg: false,
-      msg: ""
+      msg: "",
+      msg2: ""
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -40,7 +41,8 @@ class Signup extends Component {
             // update the state to redirect to home
             this.setState({
               statusReg: true,
-              msg: response.data.msg
+              msg: response.data.msg,
+              statusReg: response.data.success
             })
             console.log("status reg:"+this.state.statusReg)
           }
@@ -49,9 +51,14 @@ class Signup extends Component {
       console.log(error);
 
     })
+    if(this.state.msg.length<1) {
+      this.setState({msg2:"Incorrect email"})
+    } else {
+      this.setState({msg2:""})
+    }
     }
   functionq(){
-    if(!this.props.status) {
+    if(!this.state.statusReg) {
       return(
         <form className="Form-size1">
               <FormGroup>
@@ -97,7 +104,7 @@ class Signup extends Component {
 
                      onChange={this.handleChange}
               />
-              <label className="RED">{this.state.msg}</label>
+              <h5 className="RED">{this.state.msg}</h5>
               </FormGroup>
           <div className="form-group ">
             <div className="col-7"></div>
@@ -113,8 +120,7 @@ class Signup extends Component {
   } else {
     return(
       <form>
-        <h1>Authorizated</h1>
-        //<Redirect to={{pathname: "/room"}}/>
+        <Redirect to={{pathname: "/signIn"}}/>
       </form>
     )
 

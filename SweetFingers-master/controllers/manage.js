@@ -1,6 +1,7 @@
 
 var User = require('../models/User');
-
+var Article = require('../models/Article');
+var Comment = require('../models/Comment');
 exports.index = (req, res, next) => {
   res.render("users");
 }

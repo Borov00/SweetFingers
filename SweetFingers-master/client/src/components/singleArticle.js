@@ -9,13 +9,19 @@ class Articles extends Component {
     this.state = {
       id: "/article/",
       id2: "/edit/",
+      id3: "/single/",
       article: [],
       id_article: "",
       redirect: false,
-      msg: ""
+      msg: "",
+      comments:[],
+      comment: ""
     };
+
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.sendComment = this.sendComment.bind(this)
+    this.componentDidMount = this.componentDidMount.bind(this)
   }
   componentDidMount() {
     axios.get(this.state.id+this.props.id).then(response => {
@@ -26,8 +32,22 @@ class Articles extends Component {
         console.log("nihuya")
       }
     })
-  }
 
+    axios.get("/comment/"+ this.props.id).then(response => {
+      if (response.data) {
+        console.log(response.data)
+        this.setState({comments: response.data})
+      } else {
+        console.log("nihuya")
+      }
+    })
+
+  }
+  handleChange(event) {
+    this.setState({
+      comment: event.target.value
+    })
+  }
     handleSubmit(event) {
 
       axios
@@ -46,18 +66,39 @@ class Articles extends Component {
 
       })
     }
+
+    sendComment(event) {
+    //  event.preventDefault();
+      axios
+          .post('/comment', {
+            comment: this.state.comment,
+            id: this.props.id
+          })
+          .then(response => {
+            console.log('login response: ')
+            //console.log(response.data.id)
+
+          }).catch(error => {
+        console.log('login error: ')
+        console.log(error);
+
+      })
+
+      console.log(this.state.comment)
+    }
+
   render()
 
   {
 
     if(!this.state.redirect) {
     return (
-
+      <div>
       <ul className="asdf">
           <li className="sad" key={this.state.article._id} id="li">
             <li className="Cust-li" >
               <blockquote>
-              <p>{this.state.article.title}</p>
+              <h1>{this.state.article.title}</h1>
               <p className="Use-text"> Category: </p>
               <cite>{this.state.article.category}</cite>
               <div className="Cust-img"> <a href=""> <Image className="Cust-image" href="" src={this.state.article.feature_img}  height="5%" width="100%" /></a> </div>
@@ -78,23 +119,60 @@ class Articles extends Component {
                 <cite><ReactMarkdown source={this.state.article.ingredients}/></cite>
               </div>
               <FormGroup>
+              <Button className="Form-btn-edit" href={this.state.id2+this.props.id}>
+                 Edit
+                 <Glyphicon glyph="glyphicon glyphicon-pencil" />
+               </Button >
                <Button className="Form-btn-delete" onClick={this.handleSubmit}>
                   Del
                   <Glyphicon glyph="glyphicon glyphicon-trash" />
                 </Button >
-                <Button className="Form-btn-edit" href={this.state.id2+this.props.id}>
-                   Edit
-                   <Glyphicon glyph="glyphicon glyphicon-trash" />
-                 </Button >
+
               </FormGroup>
 
               </blockquote>
+
+
+
+
+
+
+        <div className="comments">
+          <h3 class="title-comments">Comments</h3>
+          <ul >
+            {this.state.comments.map(comment =>
+            <li class="media " key={comment._id}>
+              <div class="media-left">
+              <h1>{comment.name}:  </h1>
+
+              </div>
+
+
+                    <h3>{comment.text}</h3>
+                    <h5 class="date">{comment.createdAt}</h5>
+
+
+
             </li>
+          )}
+          <FormGroup >
 
-          </li>
+            <input type="text" className="form-control" name="comment" placeholder="Write comment" onChange={this.handleChange}/>
+            <div className="input-group-append">
+            <Button href={this.state.id3+this.props.id} className="Form-btn" onClick={this.sendComment}>
+               Send
+               <Glyphicon glyph="glyphicon glyphicon-send" />
+             </Button >
+            </div>
+
+          </FormGroup>
+          </ul>
+
+        </div>
+        </li>
+        </li>
         </ul>
-
-
+      </div>
 
     );
   } else if(this.state.redirect){

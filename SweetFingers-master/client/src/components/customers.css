@@ -141,7 +141,7 @@ font-weight: 300;
   width:100px;
   text-decoration:none;
   text-align:center;
-  margin:20px auto;
+  margin: 0px auto;
   display: block;
   background-image: linear-gradient(to left,transparent,transparent 50%,#FFB6C1 50%,#FFB6C1);
   background-position: 100% 0;
@@ -307,3 +307,62 @@ font-weight: 300;
 }
 
 .menu .nav li a:hover { color: #black }
+.media-body .author {
+  display: inline-block;
+  font-size: 4rem;
+  color: #000;
+  font-weight: 700;
+}
+.media-body .metadata {
+  display: inline-block;
+  margin-left: .5rem;
+  color: #777;
+  font-size: 3rem;
+}
+.footer-comment {
+  color: #777;
+}
+.vote.plus:hover {
+  color: green;
+}
+.vote.minus:hover {
+  color: red;
+}
+.vote {
+  cursor: pointer;
+}
+.comment-reply a {
+  color: #777;
+}
+.comment-reply a:hover, .comment-reply a:focus {
+  color: #000;
+  text-decoration: none;
+}
+.devide {
+  padding: 0px 4px;
+  font-size: 3em;
+}
+.media-text {
+  margin-bottom: 0.25rem;
+}
+.title-comments {
+  font-size: 5.0rem;
+  font-weight: bold;
+  line-height: 5.0rem;
+  color: rgba(0, 0, 0, .87);
+  margin-bottom: 1rem;
+  padding-bottom: .25rem;
+  border-bottom: 1px solid rgba(34, 36, 38, .15);
+}
+.comments {
+  width:70%;
+  position: relative;
+  left: 15%;
+  text-align: center;
+}
+.media {
+  border-bottom: 1px solid rgba(34, 36, 38, .15);
+}
+.padding {
+  padding: 20px;
+}

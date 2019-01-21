@@ -27,7 +27,7 @@ class Customers extends Component {
         <li  key={article._id}>
           <li className="Cust-li">
             <blockquote>
-            <p>{article.title}</p>
+            <h1>{article.title}</h1>
             <p className="Use-text"> Category: </p>
             <cite>{article.category}</cite>
             <li className="Cust-img"> <a href={single+article._id}> <Image className="Cust-image" href="" src={article.feature_img}  height="400px" width="700px" /></a> </li>

@@ -38,10 +38,11 @@ dotenv.load({ path: '.env.example' });
 /**
  * Controllers (route handlers).
  */
-const homeController = require('./controllers/home');
-const userController = require('./controllers/user');
-const articleController = require('./controllers/article');
-const manageController = require('./controllers/manage');
+ const homeController = require('./controllers/home');
+ const userController = require('./controllers/user');
+ const articleController = require('./controllers/article');
+ const manageController = require('./controllers/manage');
+ const commentController = require('./controllers/comments');
 /**
  * API keys and Passport configuration.
  */
@@ -178,7 +179,9 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount)
 
 //app.post('/login', passportConfig.isAuthorized, articleController.postLogin);
-
+app.post('/comment', passportConfig.isAuthenticated, commentController.addComment);
+app.get('/comment/:article_id', passportConfig.isAuthenticated, commentController.getAllForOneArticle);
+app.post('/comment/delete', passportConfig.isAuthenticated, commentController.deleteOneComment);
 /**
  * Users Management
  */

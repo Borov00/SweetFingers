@@ -27,10 +27,16 @@ exports.getUser = (req, res) =>{
 };
 
 exports.deleteOne = (req, res) =>{
-  User.findByIdAndRemove(req.params.id, function(err, user){
-    if(err) return console.log(err);
-    res.send(user);
-  });
+User.findByIdAndRemove(req.params.id, function(err, user){
+if(err) return console.log(err);
+Article.deleteMany({author: req.params.id}, function(err, success){
+if(success) console.log("succesfully deleted all aticles of user: "+req.params.id+", status: "+success);
+Comment.deleteMany({author: req.params.id}, function(err, success){
+if(success) console.log("succesfully deleted all comments of user: "+req.params.id+", status: "+success);
+res.send(user);
+})
+})
+});
 };
 
 exports.blockAll = (req, res) =>{

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './customers.css';
-import TextField from "@material-ui/core/TextField"
-import { Table,Jumbotron, Button,Nav,Navbar,NavItem,MenuItem,NavDropdown,Image,PageHeader,Glyphicon,FormGroup,FormControl,ControlLabel,HelpBlock, InputGroup} from 'react-bootstrap'
+import { Button,Image,Glyphicon,FormGroup,FormControl,ControlLabel} from 'react-bootstrap'
 import axios from "axios"
 class Edit extends Component {
   constructor() {
@@ -122,7 +121,7 @@ class Edit extends Component {
               <ControlLabel>ext<Glyphicon glyph="glyphicon glyphicon-asterisk" /></ControlLabel>
               <p>{this.state.article.text}</p>
               <FormGroup controlId="formControlsTextarea"
-                controlId="formBasicText"
+              
 
               >
                 <FormControl

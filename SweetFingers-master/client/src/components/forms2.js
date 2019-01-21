@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import {FormGroup,FormControl,ControlLabel,HelpBlock, InputGroup,Glyphicon, Image,Button} from 'react-bootstrap';
+import {FormGroup,FormControl,ControlLabel, Glyphicon, Button} from 'react-bootstrap';
 import { Redirect } from 'react-router-dom'
 class Signup extends Component {
   constructor() {

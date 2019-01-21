@@ -10,7 +10,7 @@ res.json(articles);
 }
 
 exports.addComment = (req,res) => {
-let{article_id, comment} = req.body;
+if (req.isAuthenticated()) { let{article_id, comment} = req.body;
 User.findOne({}, function(err, user){
 console.log(req.user.name);
 var newComment = new Comment({
@@ -22,6 +22,9 @@ author: req.user.id,
 newComment.save();
 getAllCommentsForOneArticle(article_id, res);
 });
+}else
+res.json({msg: "You are not authenticated"});
+
 }
 //
 exports.getAllForOneArticle =(req,res) => {

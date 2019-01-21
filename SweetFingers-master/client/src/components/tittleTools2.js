@@ -1,28 +1,21 @@
 import React, { Component } from 'react';
-import {Button,Jumbotron, Nav,Navbar,NavItem,MenuItem,NavDropdown,Glyphicon  } from 'react-bootstrap';
+import {Button, Nav,Navbar,Glyphicon ,FormControl ,FormGroup} from 'react-bootstrap';
 
 class Tools2 extends Component {
 
  render() {
    return (
-     <header className="Head-text">
+     <header>
 
-         <Nav bsStyle="tabs" activeKey="1" >
-
-
-           <NavItem eventKey="2" href="/">
-           <Glyphicon glyph="glyphicon glyphicon-home" />
-            HOME
-           </NavItem>
-
-         <Nav pullRight>
-          <NavItem eventKey="1"  href="/room" >
-            <Glyphicon glyph="glyphicon glyphicon-briefcase" />
-            ROOM
-          </NavItem>
-        </Nav>
-
-         </Nav>
+       <Navbar>
+        <Navbar.Header>
+        <Navbar.Brand>
+          <a href="/room"><Glyphicon glyph="glyphicon glyphicon-home"/>ROOM</a>
+        </Navbar.Brand>
+        <Navbar.Toggle />
+        </Navbar.Header>
+      
+        </Navbar>
 
 
      </header>

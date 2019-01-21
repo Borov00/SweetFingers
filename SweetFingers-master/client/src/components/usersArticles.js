@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './customers.css';
-import { Table,Jumbotron, Button,Nav,Navbar,NavItem,MenuItem,NavDropdown,Image,PageHeader,Glyphicon} from 'react-bootstrap'
+import {Image} from 'react-bootstrap'
 import axios from "axios"
 class UserArticles extends Component {
   constructor() {

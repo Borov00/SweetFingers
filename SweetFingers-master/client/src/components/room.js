@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import './customers.css';
-import { Redirect } from 'react-router-dom'
-import {Glyphicon ,FormGroup,FormControl,ControlLabel,Button ,Image } from 'react-bootstrap';
+import {Glyphicon ,FormGroup,FormControl,ControlLabel,Button  } from 'react-bootstrap';
 import axios from "axios";
 
-import Autocomplete from "./autocomplete";
 
 class Room extends Component {
   constructor() {

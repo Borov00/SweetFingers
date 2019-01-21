@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button,Jumbotron, Nav,Navbar,NavItem,MenuItem,NavDropdown,Glyphicon  } from 'react-bootstrap';
+import {Button, Nav,Navbar,Glyphicon ,FormGroup,FormControl} from 'react-bootstrap';
 import axios from "axios"
 class Tools extends Component {
   constructor() {
@@ -26,21 +26,14 @@ class Tools extends Component {
     }
  render() {
    return (
-    <Nav bsStyle="tabs" activeKey="1" >
-     <NavItem eventKey="2" href="/">
-     <Glyphicon glyph="glyphicon glyphicon-home" />
-       HOME
-      </NavItem>
-      <Nav pullRight>
-        <NavItem eventKey="1" href="/room"  >
+     <Navbar>
+      <Navbar.Header>
+      <Navbar.Brand>
+        <a href="/"><Glyphicon glyph="glyphicon glyphicon-home"/>Home</a>
+      </Navbar.Brand>
+      <Navbar.Toggle />
+      </Navbar.Header>
 
-        </NavItem>
-     </Nav>
-     <Nav pullRight>
-       <NavItem eventKey="1" disabled  >
-         <Glyphicon glyph="glyphicon glyphicon-arrow-right" />
-       </NavItem>
-    </Nav>
     <div className="menu">
 
     <div className="title">MENU</div>
@@ -53,7 +46,7 @@ class Tools extends Component {
     </ul>
 
   </div>
-    </Nav>
+    </Navbar>
    );
  }
 }

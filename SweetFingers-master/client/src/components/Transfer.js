@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
-import {BrowserRouter, Route,Switch} from 'react-router-dom';
-import {Button,Jumbotron, Nav,Navbar,NavItem,MenuItem,NavDropdown,Glyphicon  } from 'react-bootstrap';
+import {Navbar,Glyphicon  } from 'react-bootstrap';
 import Navbars from './navbar';
-import Room from './room';
-import Tools from './tittleTools';
 import Edit from './editArticle';
-class  Transfer extends React.Component{
+class  Transfer extends Component{
         render(){
             const id = this.props.match.params.id;
             return(
               <div >
-              <Nav bsStyle="tabs" activeKey="1" >
-               <NavItem eventKey="2" href="/">
-               <Glyphicon glyph="glyphicon glyphicon-home" />
-                 HOME
-                </NavItem>
-            </Nav>
+              <Navbar>
+               <Navbar.Header>
+               <Navbar.Brand>
+                 <a href="/"><Glyphicon glyph="glyphicon glyphicon-home"/>Home</a>
+               </Navbar.Brand>
+               <Navbar.Toggle />
+               </Navbar.Header>
+         </Navbar>
               <Navbars tittle="Edit"/>
                 <form className="App-customers">
                   <Edit id={id}/>

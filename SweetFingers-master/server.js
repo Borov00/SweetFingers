@@ -179,8 +179,8 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount)
 
 //app.post('/login', passportConfig.isAuthorized, articleController.postLogin);
-app.post('/comment', passportConfig.isAuthenticated, commentController.addComment);
-app.get('/comment/:article_id', passportConfig.isAuthenticated, commentController.getAllForOneArticle);
+app.post('/comment', commentController.addComment);
+app.get('/comment/:article_id',  commentController.getAllForOneArticle);
 app.post('/comment/delete', passportConfig.isAuthenticated, commentController.deleteOneComment);
 /**
  * Users Management

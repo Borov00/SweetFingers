@@ -7,6 +7,7 @@ name: String,
 author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 text: String,
 article: {type: mongoose.Schema.Types.ObjectId, ref: 'Article'},
+status: {type: String, default: 'user'},
 }, { timestamps: true }
 );
 

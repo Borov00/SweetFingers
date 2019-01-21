@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
 import axios from 'axios'
-import {FormGroup,FormControl,ControlLabel,HelpBlock, InputGroup,Glyphicon, Image,Button} from 'react-bootstrap';
+import {FormGroup,FormControl,ControlLabel,Glyphicon,Button} from 'react-bootstrap';
 import './customers.css';
 class LoginForm extends Component {
   constructor() {
@@ -125,7 +124,7 @@ console.log(this.state)
               <Glyphicon glyph="glyphicon glyphicon-text-width" />
               <ControlLabel>ext<Glyphicon glyph="glyphicon glyphicon-asterisk" /></ControlLabel>
               <FormGroup controlId="formControlsTextarea"
-                controlId="formBasicText"
+              
                 validationState={this.getValidationStateText()}
               >
                 <FormControl

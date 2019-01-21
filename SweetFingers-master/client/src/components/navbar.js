@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron,Grid , Row ,Col ,Image} from 'react-bootstrap'
+import { Grid , Row ,Col ,Image} from 'react-bootstrap'
 import './customers.css';
 class Navbars extends Component {
 

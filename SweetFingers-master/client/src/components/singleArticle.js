@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './customers.css';
-import { Table,Jumbotron, Button,Nav,Navbar,NavItem,MenuItem,NavDropdown,Image,PageHeader,Glyphicon,FormGroup} from 'react-bootstrap'
+import {  Button,Image,Glyphicon,FormGroup,FormControl} from 'react-bootstrap'
 import axios from "axios"
 const ReactMarkdown = require('react-markdown');
 class Articles extends Component {
@@ -131,33 +131,41 @@ class Articles extends Component {
               </FormGroup>
 
               </blockquote>
-
-
-
-
-
-
-        <div className="comments">
-          <h3 class="title-comments">Comments</h3>
-          <ul >
+          <ul className="Cust-ul1">
+            <blockquote>
+            <h1>Comments: </h1>
             {this.state.comments.map(comment =>
-            <li class="media " key={comment._id}>
-              <div class="media-left">
-              <h1>{comment.name}:  </h1>
+            <li key={comment._id}>
 
-              </div>
-
-
-                    <h3>{comment.text}</h3>
-                    <h5 class="date">{comment.createdAt}</h5>
+            <div className="Cust-li1">
+            <p className="media-left" >
+              <img className="img-circle img-sm" alt="Профиль пользователя" src="https://i.imgur.com/gcSg5TD.png"/>
+              {comment.name}
+              <h5>{comment.createdAt}</h5>
 
 
+              </p><h3 className="padding">{comment.text}</h3>
+            <div className="media-body">
+            <div className="mar-btm">
+
+            </div>
+            </div>
+            </div>
 
             </li>
-          )}
+            )}
           <FormGroup >
 
-            <input type="text" className="form-control" name="comment" placeholder="Write comment" onChange={this.handleChange}/>
+          <FormGroup controlId="formControlsTextarea"
+            
+          >
+            <FormControl
+              className="Btn-Comm"
+              name="text"
+              componentClass="textarea"
+              placeholder="Write comments..."
+              onChange={this.handleChange}/>
+          </FormGroup>
             <div className="input-group-append">
             <Button href={this.state.id3+this.props.id} className="Form-btn" onClick={this.sendComment}>
                Send
@@ -166,9 +174,10 @@ class Articles extends Component {
             </div>
 
           </FormGroup>
+          </blockquote>
           </ul>
 
-        </div>
+
         </li>
         </li>
         </ul>
